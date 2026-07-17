@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { FadeIn } from "@/components/ui/motion";
@@ -36,13 +37,23 @@ export function Footer() {
         <FadeIn>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <div className="lg:col-span-2">
-              <a
-                href="#"
-                className="text-lg font-bold tracking-tight text-foreground"
-              >
-                TECH<span className="text-accent">&</span>DEV
+              <a href="#" className="flex items-center gap-3">
+                <Image
+                  src="/logo-icon-light.svg"
+                  alt="TECH&DEV"
+                  width={40}
+                  height={34}
+                />
+                <div className="flex flex-col leading-none">
+                  <span className="text-base font-bold tracking-tight text-foreground">
+                    TECH<span className="text-accent">&</span>DEV
+                  </span>
+                  <span className="text-[10px] tracking-[0.15em] text-foreground-subtle uppercase">
+                    Solutions Numériques
+                  </span>
+                </div>
               </a>
-              <p className="text-sm text-foreground-muted mt-4 max-w-sm leading-relaxed">
+              <p className="text-sm text-foreground-muted mt-5 max-w-sm leading-relaxed">
                 Agence web premium spécialisée dans la création
                 d&apos;expériences digitales d&apos;exception. Paris, France.
               </p>
@@ -73,7 +84,8 @@ export function Footer() {
 
           <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs text-foreground-subtle">
-              &copy; {new Date().getFullYear()} TECH&DEV. Tous droits réservés.
+              &copy; {new Date().getFullYear()} TECH&DEV Solutions Numériques.
+              Tous droits réservés.
             </p>
             <div className="flex items-center gap-6">
               <p className="text-xs text-foreground-subtle">

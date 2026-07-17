@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,9 @@ export function Navbar() {
     } else {
       document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [mobileOpen]);
 
   return (
@@ -46,13 +49,22 @@ export function Navbar() {
         )}
       >
         <nav className="mx-auto max-w-7xl px-6 lg:px-8 h-16 flex items-center justify-between">
-          <a
-            href="#"
-            className="text-lg font-bold tracking-tight text-foreground"
-          >
-            TECH
-            <span className="text-accent">&</span>
-            DEV
+          <a href="#" className="flex items-center gap-2.5 shrink-0">
+            <Image
+              src="/logo-icon-light.svg"
+              alt="TECH&DEV"
+              width={36}
+              height={30}
+              priority
+            />
+            <div className="flex flex-col leading-none">
+              <span className="text-sm font-bold tracking-tight text-foreground">
+                TECH<span className="text-accent">&</span>DEV
+              </span>
+              <span className="text-[9px] tracking-[0.15em] text-foreground-subtle uppercase">
+                Solutions Numériques
+              </span>
+            </div>
           </a>
 
           <div className="hidden md:flex items-center gap-1">
@@ -91,6 +103,13 @@ export function Navbar() {
             className="fixed inset-0 z-40 bg-[var(--bg-deep)]/95 backdrop-blur-xl md:hidden"
           >
             <nav className="flex flex-col items-center justify-center h-full gap-8">
+              <Image
+                src="/logo-icon-light.svg"
+                alt="TECH&DEV"
+                width={60}
+                height={50}
+                className="mb-4"
+              />
               {links.map((link, i) => (
                 <motion.a
                   key={link.href}
@@ -98,7 +117,11 @@ export function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{
+                    delay: i * 0.08,
+                    duration: 0.4,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   className="text-2xl font-medium text-foreground hover:text-accent transition-colors"
                 >
                   {link.label}
@@ -107,7 +130,11 @@ export function Navbar() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  delay: 0.35,
+                  duration: 0.4,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
               >
                 <Button size="lg" onClick={() => setMobileOpen(false)}>
                   <a href="#contact">Parlons de votre projet</a>

@@ -83,7 +83,8 @@ const jsonLd = {
   description:
     "Agence web premium spécialisée dans la création d'expériences digitales d'exception.",
   url: "https://techanddev.fr",
-  logo: "https://techanddev.fr/logo.svg",
+  logo: "https://techanddev.fr/logo-full.svg",
+  image: "https://techanddev.fr/logo-icon.svg",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Paris",
