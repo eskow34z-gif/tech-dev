@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -153,6 +153,7 @@ export function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
+  const numRef = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const springValue = useSpring(0, {
@@ -161,14 +162,25 @@ export function CountUp({
     mass: 1,
   });
 
-  if (isInView) {
-    springValue.set(value);
-  }
+  useEffect(() => {
+    if (isInView) {
+      springValue.set(value);
+    }
+  }, [isInView, springValue, value]);
+
+  useEffect(() => {
+    const unsubscribe = springValue.on("change", (v) => {
+      if (numRef.current) {
+        numRef.current.textContent = Math.round(v).toString();
+      }
+    });
+    return unsubscribe;
+  }, [springValue]);
 
   return (
     <span ref={ref} className={className}>
       {prefix}
-      <motion.span>{springValue}</motion.span>
+      <span ref={numRef}>0</span>
       {suffix}
     </span>
   );

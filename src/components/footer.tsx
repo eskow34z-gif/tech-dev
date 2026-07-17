@@ -10,18 +10,17 @@ const footerLinks = [
     title: "Navigation",
     links: [
       { label: "Services", href: "#services" },
+      { label: "Tarifs", href: "#tarifs" },
       { label: "Projets", href: "#projects" },
-      { label: "Expertise", href: "#expertise" },
       { label: "Contact", href: "#contact" },
     ],
   },
   {
     title: "Services",
     links: [
-      { label: "Design UI/UX", href: "#services" },
-      { label: "Développement Web", href: "#services" },
-      { label: "Design System", href: "#services" },
-      { label: "SEO Technique", href: "#services" },
+      { label: "Informatique", href: "#services" },
+      { label: "Création Web", href: "#services" },
+      { label: "Design Graphique", href: "#services" },
     ],
   },
 ];
