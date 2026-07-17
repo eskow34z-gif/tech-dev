@@ -2,12 +2,13 @@
 
 import { Send, Mail, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FadeIn } from "@/components/ui/motion";
+import { FadeIn, SectionDivider } from "@/components/ui/motion";
 
 export function Contact() {
   return (
     <section id="contact" className="py-24 sm:py-32 relative">
       <div className="absolute inset-0 bg-[var(--bg-base)]" />
+      <SectionDivider className="absolute top-0 left-6 right-6 lg:left-8 lg:right-8 z-10" />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <FadeIn className="text-center mb-16 sm:mb-20">
