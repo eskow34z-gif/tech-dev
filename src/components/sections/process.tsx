@@ -2,40 +2,40 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { MessageSquare, PenTool, Code2, Rocket } from "lucide-react";
+import { Phone, FileSearch, Wrench, Handshake } from "lucide-react";
 import { FadeIn, SectionDivider } from "@/components/ui/motion";
 
 const steps = [
   {
     number: "01",
-    icon: MessageSquare,
-    title: "Découverte",
+    icon: Phone,
+    title: "Appel gratuit",
     description:
-      "On comprend votre vision, vos objectifs, votre audience. Un brief clair pour des résultats précis.",
-    duration: "1 semaine",
+      "On discute de votre besoin par téléphone ou en visio. Pas de jargon, pas d'engagement — juste un échange pour comprendre votre situation.",
+    duration: "15-30 min",
   },
   {
     number: "02",
-    icon: PenTool,
-    title: "Design & Prototypage",
+    icon: FileSearch,
+    title: "Diagnostic & devis",
     description:
-      "Design system, wireframes, maquettes haute fidélité. Chaque décision est validée avant le code.",
-    duration: "2-3 semaines",
+      "Je vous envoie un devis clair et détaillé sous 24h. Pour les projets web, vous recevez une maquette gratuite avant de vous engager.",
+    duration: "24h",
   },
   {
     number: "03",
-    icon: Code2,
-    title: "Développement",
+    icon: Wrench,
+    title: "Réalisation",
     description:
-      "Code propre, typé, performant. Itérations courtes avec démos régulières. Aucune surprise.",
-    duration: "4-8 semaines",
+      "Je travaille sur votre projet avec des points réguliers. Vous validez chaque étape avant de passer à la suivante. Zéro surprise.",
+    duration: "1-3 semaines",
   },
   {
     number: "04",
-    icon: Rocket,
-    title: "Lancement & Suivi",
+    icon: Handshake,
+    title: "Livraison & suivi",
     description:
-      "Déploiement optimisé, monitoring, ajustements post-launch. On ne vous lâche pas après la mise en ligne.",
+      "Livraison soignée, formation rapide à vos outils, et je reste disponible après. La relation ne s'arrête pas à la livraison.",
     duration: "Continu",
   },
 ];
@@ -59,7 +59,7 @@ export function Process() {
             Processus
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
-            Comment on travaille
+            Simple, rapide, efficace
           </h2>
         </FadeIn>
 

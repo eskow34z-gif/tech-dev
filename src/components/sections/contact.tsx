@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mail, MapPin, Clock, Check, Loader2 } from "lucide-react";
+import { Send, Mail, MapPin, Clock, Phone, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn, SectionDivider, GlowCard } from "@/components/ui/motion";
 
@@ -29,11 +29,11 @@ export function Contact() {
             Contact
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
-            Parlons de votre projet
+            Demandez votre devis gratuit
           </h2>
           <p className="text-foreground-muted mt-4 max-w-xl mx-auto">
-            Un projet ambitieux ? On adore ça. Décrivez votre vision, on
-            s&apos;occupe du reste.
+            Décrivez votre besoin en quelques mots. Je vous réponds sous 24h
+            avec une proposition claire et sans engagement.
           </p>
         </FadeIn>
 
@@ -63,37 +63,40 @@ export function Contact() {
                     htmlFor="email"
                     className="block text-sm font-medium text-foreground-muted mb-2"
                   >
-                    Email
+                    Email ou téléphone
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     id="email"
                     name="email"
                     required
                     autoComplete="email"
                     className="w-full h-11 px-4 text-sm bg-[var(--bg-surface)] border border-border rounded-[var(--radius-md)] text-foreground placeholder:text-foreground-subtle focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all duration-200"
-                    placeholder="jean@entreprise.com"
+                    placeholder="jean@email.com ou 06 12 34 56 78"
                   />
                 </div>
               </div>
 
               <div>
                 <label
-                  htmlFor="budget"
+                  htmlFor="service"
                   className="block text-sm font-medium text-foreground-muted mb-2"
                 >
-                  Budget estimé
+                  Type de prestation
                 </label>
                 <select
-                  id="budget"
-                  name="budget"
+                  id="service"
+                  name="service"
                   className="w-full h-11 px-4 text-sm bg-[var(--bg-surface)] border border-border rounded-[var(--radius-md)] text-foreground focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all duration-200 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%238A8F98%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:16px] bg-[right_12px_center] bg-no-repeat pr-10"
                 >
-                  <option value="">Sélectionnez un budget</option>
-                  <option value="5k-10k">5 000 € — 10 000 €</option>
-                  <option value="10k-25k">10 000 € — 25 000 €</option>
-                  <option value="25k-50k">25 000 € — 50 000 €</option>
-                  <option value="50k+">50 000 € +</option>
+                  <option value="">Choisir une prestation</option>
+                  <option value="informatique">Informatique / Dépannage</option>
+                  <option value="site-vitrine">Site vitrine</option>
+                  <option value="e-commerce">Boutique en ligne</option>
+                  <option value="design">Design graphique / Logo</option>
+                  <option value="pack">Pack Lancement Commerce</option>
+                  <option value="maintenance">Maintenance / Forfait</option>
+                  <option value="autre">Autre</option>
                 </select>
               </div>
 
@@ -102,7 +105,7 @@ export function Contact() {
                   htmlFor="message"
                   className="block text-sm font-medium text-foreground-muted mb-2"
                 >
-                  Votre projet
+                  Votre besoin
                 </label>
                 <textarea
                   id="message"
@@ -110,7 +113,7 @@ export function Contact() {
                   rows={5}
                   required
                   className="w-full px-4 py-3 text-sm bg-[var(--bg-surface)] border border-border rounded-[var(--radius-md)] text-foreground placeholder:text-foreground-subtle focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all duration-200 resize-none"
-                  placeholder="Décrivez votre projet, vos objectifs et votre timeline..."
+                  placeholder="Décrivez votre besoin en quelques mots..."
                 />
               </div>
 
@@ -128,7 +131,7 @@ export function Contact() {
                       exit={{ opacity: 0 }}
                       className="flex items-center gap-2"
                     >
-                      Envoyer le message
+                      Envoyer ma demande
                       <Send size={16} />
                     </motion.span>
                   )}
@@ -152,7 +155,7 @@ export function Contact() {
                       exit={{ opacity: 0 }}
                       className="flex items-center gap-2 text-[var(--success)]"
                     >
-                      Message envoyé
+                      Demande envoyée !
                       <Check size={16} />
                     </motion.span>
                   )}
@@ -165,19 +168,24 @@ export function Contact() {
             <div className="space-y-6">
               {[
                 {
+                  icon: Phone,
+                  label: "Téléphone",
+                  value: "06 XX XX XX XX",
+                },
+                {
                   icon: Mail,
                   label: "Email",
                   value: "contact@techanddev.fr",
                 },
                 {
                   icon: MapPin,
-                  label: "Localisation",
-                  value: "Paris, France\nRemote worldwide",
+                  label: "Zone d'intervention",
+                  value: "Île-de-France\nDéplacement ou à distance",
                 },
                 {
                   icon: Clock,
-                  label: "Réponse",
-                  value: "Sous 24h ouvrées",
+                  label: "Disponibilité",
+                  value: "Lun-Sam, 9h-19h\nRéponse sous 24h",
                 },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-4">
@@ -195,22 +203,20 @@ export function Contact() {
 
               <GlowCard className="mt-8">
                 <div className="p-6">
-                  <p className="text-sm font-medium mb-4">Notre processus</p>
-                  <ol className="space-y-3 text-sm text-foreground-muted">
+                  <p className="text-sm font-medium mb-4">Ce qui est inclus</p>
+                  <ul className="space-y-3 text-sm text-foreground-muted">
                     {[
-                      "Appel découverte (30 min)",
-                      "Proposition & design system",
-                      "Développement itératif",
-                      "Livraison & optimisation",
-                    ].map((step, i) => (
-                      <li key={step} className="flex items-start gap-3">
-                        <span className="text-accent font-mono text-xs mt-0.5 shrink-0">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        {step}
+                      "Diagnostic gratuit par téléphone",
+                      "Devis détaillé sous 24h",
+                      "Maquette offerte (projets web)",
+                      "Paiement en plusieurs fois possible",
+                    ].map((item) => (
+                      <li key={item} className="flex items-center gap-3">
+                        <Check size={14} className="text-accent shrink-0" />
+                        {item}
                       </li>
                     ))}
-                  </ol>
+                  </ul>
                 </div>
               </GlowCard>
             </div>

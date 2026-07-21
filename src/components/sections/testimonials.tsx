@@ -1,30 +1,39 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Quote } from "lucide-react";
-import { FadeIn, StaggerContainer, StaggerItem, GlowCard, SectionDivider } from "@/components/ui/motion";
+import { Quote, Star } from "lucide-react";
+import {
+  FadeIn,
+  StaggerContainer,
+  StaggerItem,
+  GlowCard,
+  SectionDivider,
+} from "@/components/ui/motion";
 
 const testimonials = [
   {
     quote:
-      "TECH&DEV a transformé notre vision en une expérience digitale qui dépasse largement nos attentes. Le niveau de finition est exceptionnel.",
-    author: "Marie Laurent",
-    role: "CEO, Finova",
-    accent: "#5E6AD2",
+      "Grâce à TECH&DEV, ma boulangerie est enfin visible sur Google Maps. Les clients me trouvent facilement et le site est superbe sur mobile. Je recommande à 100% !",
+    author: "Sophie M.",
+    role: "Boulangère, Paris 11e",
+    accent: "#F59E0B",
+    stars: 5,
   },
   {
     quote:
-      "Leur approche obsessionnelle de la performance et du détail a fait toute la différence. Notre taux de conversion a augmenté de 340%.",
-    author: "Thomas Mercier",
-    role: "CTO, NeuraScan",
+      "J'avais besoin d'un logo, de cartes de visite et d'un habillage Instagram. Tout a été livré en une semaine, avec un résultat très pro. Rapport qualité-prix imbattable.",
+    author: "Karim B.",
+    role: "Gérant, Studio K Barbershop",
+    accent: "#3B82F6",
+    stars: 5,
+  },
+  {
+    quote:
+      "Notre réseau plantait tout le temps. Intervention rapide, diagnostic clair, et maintenant tout tourne nickel. En plus, on a pris le forfait maintenance — la tranquillité !",
+    author: "Catherine D.",
+    role: "Cabinet comptable, Montreuil",
     accent: "#22C55E",
-  },
-  {
-    quote:
-      "Un travail d'orfèvre. Chaque interaction, chaque animation, chaque transition respire le premium. C'est exactement ce dont notre marque avait besoin.",
-    author: "Sophie Durand",
-    role: "Directrice Artistique, Maison Elara",
-    accent: "#A16207",
+    stars: 5,
   },
 ];
 
@@ -39,7 +48,7 @@ export function Testimonials() {
             Témoignages
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
-            Ce qu&apos;ils en disent
+            Ils nous font confiance
           </h2>
         </FadeIn>
 
@@ -51,11 +60,23 @@ export function Testimonials() {
             <StaggerItem key={t.author}>
               <GlowCard className="h-full">
                 <div className="p-6 sm:p-8 flex flex-col h-full">
-                  <Quote
-                    size={20}
-                    className="mb-4 shrink-0"
-                    style={{ color: t.accent }}
-                  />
+                  <div className="flex items-center justify-between mb-4">
+                    <Quote
+                      size={20}
+                      className="shrink-0"
+                      style={{ color: t.accent }}
+                    />
+                    <div className="flex gap-0.5">
+                      {Array.from({ length: t.stars }).map((_, i) => (
+                        <Star
+                          key={i}
+                          size={14}
+                          className="fill-current"
+                          style={{ color: t.accent }}
+                        />
+                      ))}
+                    </div>
+                  </div>
                   <blockquote className="text-sm text-foreground-muted leading-relaxed flex-1 mb-6">
                     &ldquo;{t.quote}&rdquo;
                   </blockquote>
