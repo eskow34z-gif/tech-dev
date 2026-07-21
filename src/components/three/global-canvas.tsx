@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useCallback, useState } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, invalidate } from "@react-three/fiber";
 import {
   EffectComposer,
   Bloom,
@@ -44,7 +44,8 @@ export function GlobalCanvas() {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     scrollProgress.current = Math.max(0, Math.min(1, scrollTop / docHeight));
-  }, []);
+    if (isMobile) invalidate();
+  }, [isMobile]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -65,7 +66,8 @@ export function GlobalCanvas() {
           powerPreference: "high-performance",
           stencil: false,
         }}
-        dpr={isMobile ? [1, 1.5] : [1, 2]}
+        dpr={isMobile ? [1, 1] : [1, 2]}
+        frameloop={isMobile ? "demand" : "always"}
         style={{ background: "transparent" }}
         eventSource={typeof document !== "undefined" ? document.documentElement : undefined}
         eventPrefix="client"
@@ -76,51 +78,54 @@ export function GlobalCanvas() {
         {/* Hero zone — CPU */}
         <CpuCore />
 
-        {/* Services zone — Data Vortex */}
-        <DataVortex />
-
-        {/* Pricing zone — Crystal formations */}
-        <CrystalGrid />
-
-        {/* Projects zone — Particle field */}
-        <ParticleField />
-
-        {/* Testimonials — Neural Network + Liquid Sphere */}
-        <NeuralNetwork />
-        {!isMobile && <LiquidSphere position={[4, -58, -2]} />}
-
-        {/* Expertise — Exploded GPU */}
-        <ExplodedGpu scrollProgress={scrollProgress} />
-
-        {/* Holographic floating screens */}
+        {/* Mobile: only essential objects */}
         {!isMobile && (
           <>
+            {/* Services zone — Data Vortex */}
+            <DataVortex />
+
+            {/* Pricing zone — Crystal formations */}
+            <CrystalGrid />
+
+            {/* Testimonials — Liquid Sphere */}
+            <LiquidSphere position={[4, -58, -2]} />
+
+            {/* Expertise — Exploded GPU */}
+            <ExplodedGpu scrollProgress={scrollProgress} />
+
+            {/* Holographic floating screens */}
             <HolographicScreen position={[-6, -42, -4]} rotation={[0, 0.4, 0]} scale={[4, 2.5, 1]} />
             <HolographicScreen position={[6, -56, -3]} rotation={[0, -0.3, 0.05]} scale={[3, 2, 1]} />
             <HolographicScreen position={[-5, -90, -2]} rotation={[0.1, 0.5, 0]} scale={[3.5, 2, 1]} />
+
+            {/* Process — Data Tunnel */}
+            <DataTunnel />
+
+            {/* CTA — Energy Sphere */}
+            <EnergySphere />
           </>
         )}
 
-        {/* Process — Data Tunnel */}
-        <DataTunnel />
+        {/* Projects zone — Particle field (lighter, OK on mobile) */}
+        <ParticleField />
 
-        {/* CTA — Energy Sphere */}
-        <EnergySphere />
+        {/* Testimonials — Neural Network */}
+        <NeuralNetwork />
 
         {/* Contact — Floating Grid floor */}
         <FloatingGrid />
 
         {/* Post-Processing */}
-        <EffectComposer>
+        <EffectComposer enabled={!isMobile}>
           <Bloom
-            intensity={isMobile ? 0.5 : 0.8}
+            intensity={0.8}
             luminanceThreshold={0.2}
             luminanceSmoothing={0.9}
             mipmapBlur
           />
           <ChromaticAberration
             blendFunction={BlendFunction.NORMAL}
-            offset={isMobile ? [0.0003, 0.0003] : [0.0006, 0.0006]}
+            offset={[0.0006, 0.0006]}
             radialModulation={true}
             modulationOffset={0.4}
           />

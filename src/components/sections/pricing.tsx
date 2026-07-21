@@ -250,7 +250,7 @@ export function Pricing() {
                     350€
                   </span>
                   <span className="text-foreground-subtle line-through text-lg">
-                    355€
+                    650€
                   </span>
                 </div>
                 <p className="text-foreground-muted max-w-md">

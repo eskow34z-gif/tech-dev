@@ -2,9 +2,8 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { MagneticHover, TextReveal } from "@/components/ui/motion";
 
 export function Hero() {
@@ -53,17 +52,6 @@ export function Hero() {
         style={{ opacity, scale }}
         className="relative z-10 mx-auto max-w-5xl px-6 lg:px-8 text-center"
       >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <Badge variant="accent" className="mb-8">
-            <Sparkles size={12} className="mr-1.5" />
-            Solutions Numériques Premium
-          </Badge>
-        </motion.div>
-
         <TextReveal delay={0.1}>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
             Votre partenaire
@@ -113,26 +101,6 @@ export function Hero() {
           </MagneticHover>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="mt-20 flex items-center justify-center gap-6 sm:gap-10 text-foreground-subtle"
-        >
-          {["Informatique", "Web", "Design", "SEO", "Maintenance"].map(
-            (tech, i) => (
-              <motion.span
-                key={tech}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.1 + i * 0.08, duration: 0.4 }}
-                className="text-xs sm:text-sm font-medium tracking-wider uppercase hover:text-accent transition-colors duration-300"
-              >
-                {tech}
-              </motion.span>
-            )
-          )}
-        </motion.div>
       </motion.div>
 
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10">

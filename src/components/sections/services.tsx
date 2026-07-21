@@ -13,6 +13,7 @@ import {
   CreditCard,
   Headphones,
   ShoppingCart,
+  Nfc,
   RefreshCw,
   MapPin,
   FileImage,
@@ -79,6 +80,13 @@ const tabs = [
         title: "Maintenance & assistance",
         description:
           "Un forfait mensuel pour être votre interlocuteur informatique au quotidien — interventions illimitées, tranquillité assurée.",
+      },
+      {
+        icon: Nfc,
+        title: "Carte NFC avis Google",
+        description:
+          "Une carte NFC que vos clients tapotent avec leur téléphone pour laisser un avis Google instantanément. Bientôt disponible.",
+        badge: "Bientôt",
       },
     ],
   },
@@ -166,7 +174,7 @@ export function Services() {
   const activeData = tabs.find((t) => t.id === activeTab)!;
 
   return (
-    <section id="services" className="py-24 sm:py-32 relative">
+    <section id="services" className="py-24 sm:py-32 relative bg-[var(--bg-base)]/95 backdrop-blur-lg">
       <SectionDivider className="absolute top-0 left-6 right-6 lg:left-8 lg:right-8" />
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -235,14 +243,21 @@ export function Services() {
             >
               {activeData.services.map((service) => (
                 <StaggerItem key={service.title}>
-                  <GlowCard className="h-full">
+                  <GlowCard className="h-full !bg-[var(--bg-deep)]/90 !border-border/60">
                     <div className="group p-6 sm:p-8 h-full">
                       <div className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent mb-5 group-hover:shadow-[var(--shadow-glow)] transition-all duration-300 group-hover:scale-110">
                         <service.icon size={20} strokeWidth={1.8} />
                       </div>
-                      <h3 className="text-lg font-semibold mb-3 group-hover:text-accent transition-colors duration-300">
-                        {service.title}
-                      </h3>
+                      <div className="flex items-center gap-2 mb-3">
+                        <h3 className="text-lg font-semibold group-hover:text-accent transition-colors duration-300">
+                          {service.title}
+                        </h3>
+                        {"badge" in service && service.badge && (
+                          <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[var(--radius-full)] bg-accent/15 text-accent border border-accent/25">
+                            {service.badge}
+                          </span>
+                        )}
+                      </div>
                       <p className="text-sm text-foreground-muted leading-relaxed">
                         {service.description}
                       </p>
