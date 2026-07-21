@@ -50,7 +50,7 @@ export function Process() {
 
   return (
     <section className="py-24 sm:py-32 relative">
-      <div className="absolute inset-0 bg-[var(--bg-base)]" />
+      <div className="absolute inset-0 bg-[var(--bg-base)]/80 backdrop-blur-sm" />
       <SectionDivider className="absolute top-0 left-6 right-6 lg:left-8 lg:right-8 z-10" />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">

@@ -1,17 +1,11 @@
 "use client";
 
-import { useRef, lazy, Suspense } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MagneticHover, TextReveal } from "@/components/ui/motion";
-
-const HeroScene = lazy(() =>
-  import("@/components/three/hero-scene").then((m) => ({
-    default: m.HeroScene,
-  }))
-);
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -28,10 +22,6 @@ export function Hero() {
       ref={sectionRef}
       className="relative min-h-dvh flex items-center justify-center overflow-hidden"
     >
-      <Suspense fallback={null}>
-        <HeroScene />
-      </Suspense>
-
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: bgY }}>
         <motion.div
           animate={{
