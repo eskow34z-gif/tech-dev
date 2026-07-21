@@ -1,11 +1,17 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MagneticHover, TextReveal } from "@/components/ui/motion";
+
+const HeroScene = lazy(() =>
+  import("@/components/three/hero-scene").then((m) => ({
+    default: m.HeroScene,
+  }))
+);
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -22,14 +28,18 @@ export function Hero() {
       ref={sectionRef}
       className="relative min-h-dvh flex items-center justify-center overflow-hidden"
     >
-      <motion.div className="absolute inset-0" style={{ y: bgY }}>
+      <Suspense fallback={null}>
+        <HeroScene />
+      </Suspense>
+
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: bgY }}>
         <motion.div
           animate={{
             x: [0, 30, -20, 0],
             y: [0, -20, 30, 0],
           }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/8 rounded-full blur-[120px]"
+          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/6 rounded-full blur-[120px]"
         />
         <motion.div
           animate={{
@@ -42,12 +52,12 @@ export function Hero() {
             ease: "linear",
             delay: 2,
           }}
-          className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-[#3B82F6]/6 rounded-full blur-[100px]"
+          className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-[#3B82F6]/5 rounded-full blur-[100px]"
         />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--bg-deep)_70%)]" />
       </motion.div>
 
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_65%)] pointer-events-none" />
 
       <motion.div
         style={{ opacity, scale }}
@@ -60,25 +70,25 @@ export function Hero() {
         >
           <Badge variant="accent" className="mb-8">
             <Sparkles size={12} className="mr-1.5" />
-            Agence Web Premium
+            Solutions Numériques Premium
           </Badge>
         </motion.div>
 
         <TextReveal delay={0.1}>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
-            On construit des
+            Votre partenaire
           </h1>
         </TextReveal>
         <TextReveal delay={0.2}>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
             <span className="bg-gradient-to-r from-accent via-[#3B82F6] to-accent bg-[length:200%_auto] animate-[gradient-shift_4s_ease-in-out_infinite] bg-clip-text text-transparent">
-              expériences digitales
+              tech de confiance
             </span>
           </h1>
         </TextReveal>
         <TextReveal delay={0.3}>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-8">
-            d&apos;exception
+            en Île-de-France
           </h1>
         </TextReveal>
 
@@ -88,8 +98,8 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="text-lg sm:text-xl text-foreground-muted max-w-2xl mx-auto mb-12 leading-relaxed"
         >
-          Design UI/UX premium, développement sur-mesure et performance
-          obsessionnelle. Votre produit mérite le meilleur.
+          Informatique, création web et design graphique pour les commerces,
+          artisans et indépendants qui veulent se démarquer.
         </motion.p>
 
         <motion.div
@@ -101,14 +111,14 @@ export function Hero() {
           <MagneticHover strength={0.15}>
             <Button size="lg">
               <a href="#contact" className="flex items-center gap-2">
-                Démarrer un projet
+                Demander un devis gratuit
                 <ArrowRight size={18} />
               </a>
             </Button>
           </MagneticHover>
           <MagneticHover strength={0.15}>
             <Button variant="outline" size="lg">
-              <a href="#projects">Voir nos réalisations</a>
+              <a href="#services">Découvrir nos services</a>
             </Button>
           </MagneticHover>
         </motion.div>
@@ -117,16 +127,16 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
-          className="mt-20 flex items-center justify-center gap-8 sm:gap-12 text-foreground-subtle"
+          className="mt-20 flex items-center justify-center gap-6 sm:gap-10 text-foreground-subtle"
         >
-          {["Next.js", "React", "TypeScript", "Tailwind", "Framer Motion"].map(
+          {["Informatique", "Web", "Design", "SEO", "Maintenance"].map(
             (tech, i) => (
               <motion.span
                 key={tech}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.1 + i * 0.08, duration: 0.4 }}
-                className="text-xs sm:text-sm font-medium tracking-wider uppercase hover:text-foreground-muted transition-colors duration-300"
+                className="text-xs sm:text-sm font-medium tracking-wider uppercase hover:text-accent transition-colors duration-300"
               >
                 {tech}
               </motion.span>
@@ -135,7 +145,7 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
