@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Monitor,
@@ -17,12 +17,13 @@ import {
   RefreshCw,
   MapPin,
   FileImage,
-  Printer,
   Contact,
   Share2,
   UtensilsCrossed,
   Image,
   Sparkles,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import {
   FadeIn,
@@ -169,16 +170,101 @@ const tabs = [
   },
 ];
 
+function ServiceCard({ service }: { service: (typeof tabs)[number]["services"][number] }) {
+  return (
+    <GlowCard className="h-full !bg-[var(--bg-deep)]/90 !border-border/60">
+      <div className="group p-5 sm:p-8 h-full">
+        <div className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent mb-4 sm:mb-5 group-hover:shadow-[var(--shadow-glow)] transition-all duration-300 group-hover:scale-110">
+          <service.icon size={20} strokeWidth={1.8} />
+        </div>
+        <div className="flex items-center gap-2 mb-2 sm:mb-3">
+          <h3 className="text-base sm:text-lg font-semibold group-hover:text-accent transition-colors duration-300">
+            {service.title}
+          </h3>
+          {"badge" in service && service.badge && (
+            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[var(--radius-full)] bg-accent/15 text-accent border border-accent/25">
+              {service.badge}
+            </span>
+          )}
+        </div>
+        <p className="text-sm text-foreground-muted leading-relaxed">
+          {service.description}
+        </p>
+      </div>
+    </GlowCard>
+  );
+}
+
+function MobileCarousel({ services }: { services: (typeof tabs)[number]["services"] }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (!scrollRef.current) return;
+    const el = scrollRef.current;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
+
+  const scroll = (dir: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const cardWidth = scrollRef.current.clientWidth * 0.78;
+    scrollRef.current.scrollBy({
+      left: dir === "left" ? -cardWidth : cardWidth,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <div className="relative">
+      <div
+        ref={scrollRef}
+        onScroll={checkScroll}
+        className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 -mx-6 px-6"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {services.map((service) => (
+          <div
+            key={service.title}
+            className="flex-shrink-0 w-[78%] snap-start"
+          >
+            <ServiceCard service={service} />
+          </div>
+        ))}
+      </div>
+
+      {/* Nav arrows */}
+      <div className="flex justify-center gap-3 mt-3">
+        <button
+          onClick={() => scroll("left")}
+          disabled={!canScrollLeft}
+          className="w-8 h-8 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center disabled:opacity-30 transition-opacity"
+        >
+          <ChevronLeft size={16} />
+        </button>
+        <button
+          onClick={() => scroll("right")}
+          disabled={!canScrollRight}
+          className="w-8 h-8 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center disabled:opacity-30 transition-opacity"
+        >
+          <ChevronRight size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function Services() {
   const [activeTab, setActiveTab] = useState("informatique");
   const activeData = tabs.find((t) => t.id === activeTab)!;
 
   return (
-    <section id="services" className="py-24 sm:py-32 relative bg-[var(--bg-base)]/95 backdrop-blur-lg">
+    <section id="services" className="py-14 sm:py-32 relative bg-[var(--bg-base)]/95 backdrop-blur-lg">
       <SectionDivider className="absolute top-0 left-6 right-6 lg:left-8 lg:right-8" />
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <FadeIn className="text-center mb-16 sm:mb-20">
+        <FadeIn className="text-center mb-10 sm:mb-20">
           <p className="text-sm font-medium text-accent tracking-widest uppercase mb-4">
             Services
           </p>
@@ -191,7 +277,7 @@ export function Services() {
           </h2>
         </FadeIn>
 
-        <FadeIn delay={0.1} className="mb-12">
+        <FadeIn delay={0.1} className="mb-8 sm:mb-12">
           <div className="flex justify-center">
             <div className="inline-flex items-center gap-1 p-1 rounded-[var(--radius-lg)] border border-border bg-[var(--bg-surface)]">
               {tabs.map((tab) => (
@@ -233,46 +319,35 @@ export function Services() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="text-center text-foreground-muted mb-10 text-lg">
+            <p className="text-center text-foreground-muted mb-6 sm:mb-10 text-base sm:text-lg">
               {activeData.subtitle}
             </p>
 
-            <StaggerContainer
-              stagger={0.06}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
-            >
-              {activeData.services.map((service) => (
-                <StaggerItem key={service.title}>
-                  <GlowCard className="h-full !bg-[var(--bg-deep)]/90 !border-border/60">
-                    <div className="group p-6 sm:p-8 h-full">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent mb-5 group-hover:shadow-[var(--shadow-glow)] transition-all duration-300 group-hover:scale-110">
-                        <service.icon size={20} strokeWidth={1.8} />
-                      </div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <h3 className="text-lg font-semibold group-hover:text-accent transition-colors duration-300">
-                          {service.title}
-                        </h3>
-                        {"badge" in service && service.badge && (
-                          <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[var(--radius-full)] bg-accent/15 text-accent border border-accent/25">
-                            {service.badge}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-sm text-foreground-muted leading-relaxed">
-                        {service.description}
-                      </p>
-                    </div>
-                  </GlowCard>
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
+            {/* Mobile: horizontal carousel */}
+            <div className="md:hidden">
+              <MobileCarousel services={activeData.services} />
+            </div>
+
+            {/* Desktop: grid */}
+            <div className="hidden md:block">
+              <StaggerContainer
+                stagger={0.06}
+                className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+              >
+                {activeData.services.map((service) => (
+                  <StaggerItem key={service.title}>
+                    <ServiceCard service={service} />
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+            </div>
 
             {activeData.id === "web" && activeData.note && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="mt-8 text-center"
+                className="mt-6 sm:mt-8 text-center"
               >
                 <p className="inline-flex items-center gap-2 text-sm text-accent bg-accent/5 border border-accent/15 rounded-[var(--radius-lg)] px-5 py-3">
                   <Sparkles size={14} />

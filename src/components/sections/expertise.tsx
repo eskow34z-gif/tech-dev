@@ -108,11 +108,11 @@ function SkillOrb({
 
 export function Expertise() {
   return (
-    <section id="expertise" className="py-24 sm:py-32 relative">
+    <section id="expertise" className="py-14 sm:py-32 relative">
       <SectionDivider className="absolute top-0 left-6 right-6 lg:left-8 lg:right-8" />
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <FadeIn className="text-center mb-16 sm:mb-20">
+        <FadeIn className="text-center mb-10 sm:mb-20">
           <p className="text-sm font-medium text-accent tracking-widest uppercase mb-4">
             Expertise
           </p>
