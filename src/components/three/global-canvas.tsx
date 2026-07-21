@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   EffectComposer,
@@ -22,10 +22,23 @@ import {
   FloatingGrid,
   SceneLighting,
 } from "./environment-objects";
+import { LiquidSphere, HolographicScreen } from "./shaders";
+import { ExplodedGpu } from "./exploded-gpu";
+
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return mobile;
+}
 
 export function GlobalCanvas() {
   const scrollProgress = useRef(0);
-  const scrollHeight = useRef(0);
+  const isMobile = useIsMobile();
 
   const handleScroll = useCallback(() => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -34,7 +47,6 @@ export function GlobalCanvas() {
   }, []);
 
   useEffect(() => {
-    scrollHeight.current = document.documentElement.scrollHeight - window.innerHeight;
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
@@ -48,12 +60,12 @@ export function GlobalCanvas() {
       <Canvas
         camera={{ position: [0, 0, 8], fov: 60, near: 0.1, far: 200 }}
         gl={{
-          antialias: true,
+          antialias: !isMobile,
           alpha: true,
           powerPreference: "high-performance",
           stencil: false,
         }}
-        dpr={[1, 2]}
+        dpr={isMobile ? [1, 1.5] : [1, 2]}
         style={{ background: "transparent" }}
         eventSource={typeof document !== "undefined" ? document.documentElement : undefined}
         eventPrefix="client"
@@ -73,8 +85,21 @@ export function GlobalCanvas() {
         {/* Projects zone — Particle field */}
         <ParticleField />
 
-        {/* Testimonials — Neural Network */}
+        {/* Testimonials — Neural Network + Liquid Sphere */}
         <NeuralNetwork />
+        {!isMobile && <LiquidSphere position={[4, -58, -2]} />}
+
+        {/* Expertise — Exploded GPU */}
+        <ExplodedGpu scrollProgress={scrollProgress} />
+
+        {/* Holographic floating screens */}
+        {!isMobile && (
+          <>
+            <HolographicScreen position={[-6, -42, -4]} rotation={[0, 0.4, 0]} scale={[4, 2.5, 1]} />
+            <HolographicScreen position={[6, -56, -3]} rotation={[0, -0.3, 0.05]} scale={[3, 2, 1]} />
+            <HolographicScreen position={[-5, -90, -2]} rotation={[0.1, 0.5, 0]} scale={[3.5, 2, 1]} />
+          </>
+        )}
 
         {/* Process — Data Tunnel */}
         <DataTunnel />
@@ -88,20 +113,20 @@ export function GlobalCanvas() {
         {/* Post-Processing */}
         <EffectComposer>
           <Bloom
-            intensity={0.8}
+            intensity={isMobile ? 0.5 : 0.8}
             luminanceThreshold={0.2}
             luminanceSmoothing={0.9}
             mipmapBlur
           />
           <ChromaticAberration
             blendFunction={BlendFunction.NORMAL}
-            offset={[0.0006, 0.0006]}
+            offset={isMobile ? [0.0003, 0.0003] : [0.0006, 0.0006]}
             radialModulation={true}
             modulationOffset={0.4}
           />
           <Noise
             blendFunction={BlendFunction.SOFT_LIGHT}
-            opacity={0.15}
+            opacity={0.12}
           />
           <Vignette
             darkness={0.5}

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/smooth-scroll";
-import { Scene3D } from "@/components/three/scene-3d";
+import { AppShell } from "@/components/app-shell";
 import "./globals.css";
 
 const inter = Inter({
@@ -126,10 +126,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-dvh flex flex-col antialiased">
         <SmoothScroll />
-        <Scene3D />
-        <div className="relative z-10">
+        <AppShell>
           {children}
-        </div>
+        </AppShell>
       </body>
     </html>
   );
