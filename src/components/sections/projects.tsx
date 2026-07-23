@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import {
   motion,
   useMotionValue,
@@ -24,6 +25,8 @@ const projects = [
     tags: ["Site vitrine", "SEO local", "Responsive"],
     icon: Globe,
     color: "#F59E0B",
+    image:
+      "https://d8j0ntlcm91z4.cloudfront.net/user_3Go7vHHXqPh2mC3Uk2tfMrHRC5m/hf_20260723_130947_78a47909-e2d7-4f41-a5e7-8df809913526_min.webp",
   },
   {
     title: "Studio Créatif Mila",
@@ -33,6 +36,8 @@ const projects = [
     tags: ["Logo", "Print", "Réseaux sociaux"],
     icon: Palette,
     color: "#EC4899",
+    image:
+      "https://d8j0ntlcm91z4.cloudfront.net/user_3Go7vHHXqPh2mC3Uk2tfMrHRC5m/hf_20260723_130949_437bd58e-963d-41b0-a3cb-83356301c3d3_min.webp",
   },
   {
     title: "Cabinet Durand & Associés",
@@ -42,6 +47,8 @@ const projects = [
     tags: ["Réseau", "E-mail pro", "Site 5 pages"],
     icon: Monitor,
     color: "#3B82F6",
+    image:
+      "https://d8j0ntlcm91z4.cloudfront.net/user_3Go7vHHXqPh2mC3Uk2tfMrHRC5m/hf_20260723_132936_4df14532-14af-49b0-940f-f24d550cb86f_min.webp",
   },
 ];
 
@@ -90,6 +97,20 @@ function ProjectCard({
           background: `radial-gradient(600px circle at 50% 0%, ${project.color}10, transparent 60%)`,
         }}
       />
+
+      {"image" in project && project.image && (
+        <div className="relative w-full aspect-[16/9] overflow-hidden">
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-700"
+            sizes="(max-width: 1024px) 100vw, 33vw"
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-surface)] via-transparent to-transparent" />
+        </div>
+      )}
 
       <div className="relative p-6 sm:p-8">
         <div className="flex items-start justify-between mb-6">
