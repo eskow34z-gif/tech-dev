@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Monitor,
@@ -27,8 +27,6 @@ import {
 } from "lucide-react";
 import {
   FadeIn,
-  StaggerContainer,
-  StaggerItem,
   GlowCard,
   SectionDivider,
 } from "@/components/ui/motion";
@@ -171,7 +169,9 @@ const tabs = [
   },
 ];
 
-function ServiceCard({ service }: { service: (typeof tabs)[number]["services"][number] }) {
+type Service = (typeof tabs)[number]["services"][number];
+
+function ServiceCard({ service, compact }: { service: Service; compact?: boolean }) {
   return (
     <GlowCard className="h-full !bg-[var(--bg-deep)]/90 !border-border/60">
       <div className="group p-5 sm:p-8 h-full">
@@ -179,7 +179,7 @@ function ServiceCard({ service }: { service: (typeof tabs)[number]["services"][n
           <service.icon size={20} strokeWidth={1.8} />
         </div>
         <div className="flex items-center gap-2 mb-2 sm:mb-3">
-          <h3 className="text-base sm:text-lg font-semibold group-hover:text-accent transition-colors duration-300">
+          <h3 className={`${compact ? "text-base" : "text-base sm:text-lg"} font-semibold group-hover:text-accent transition-colors duration-300`}>
             {service.title}
           </h3>
           {"badge" in service && service.badge && (
@@ -196,7 +196,141 @@ function ServiceCard({ service }: { service: (typeof tabs)[number]["services"][n
   );
 }
 
-function MobileCarousel({ services }: { services: (typeof tabs)[number]["services"] }) {
+function DesktopCarousel3D({ services }: { services: Service[] }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isAutoRotating, setIsAutoRotating] = useState(true);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const count = services.length;
+
+  const goTo = useCallback((index: number) => {
+    setActiveIndex(((index % count) + count) % count);
+  }, [count]);
+
+  const handleCardClick = useCallback((index: number) => {
+    if (index === activeIndex) return;
+    setIsAutoRotating(false);
+    goTo(index);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setIsAutoRotating(true), 6000);
+  }, [activeIndex, goTo]);
+
+  useEffect(() => {
+    if (!isAutoRotating || isHovered) return;
+    const speed = 3500;
+    const interval = setInterval(() => goTo(activeIndex + 1), speed);
+    return () => clearInterval(interval);
+  }, [activeIndex, isAutoRotating, isHovered, goTo]);
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, []);
+
+  useEffect(() => {
+    setActiveIndex(0);
+    setIsAutoRotating(true);
+  }, [services]);
+
+  const getCardStyle = (index: number) => {
+    let diff = index - activeIndex;
+    if (diff > count / 2) diff -= count;
+    if (diff < -count / 2) diff += count;
+
+    const absDiff = Math.abs(diff);
+
+    if (absDiff > 2) {
+      return {
+        transform: `translateX(${diff > 0 ? 160 : -160}%) scale(0.5) rotateY(${diff > 0 ? -50 : 50}deg)`,
+        opacity: 0,
+        zIndex: 0,
+        pointerEvents: "none" as const,
+        filter: "blur(6px)",
+      };
+    }
+
+    const translateX = diff * 105;
+    const scale = absDiff === 0 ? 1 : absDiff === 1 ? 0.85 : 0.7;
+    const rotateY = diff * -8;
+    const opacity = absDiff === 0 ? 1 : absDiff === 1 ? 0.6 : 0.3;
+    const z = 10 - absDiff;
+
+    return {
+      transform: `translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
+      opacity,
+      zIndex: z,
+      pointerEvents: (absDiff <= 1 ? "auto" : "none") as "auto" | "none",
+      filter: absDiff > 1 ? "blur(3px)" : "none",
+    };
+  };
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div
+        className="relative mx-auto overflow-hidden"
+        style={{ perspective: "1200px", height: "340px", maxWidth: "900px" }}
+      >
+        {services.map((service, i) => {
+          const style = getCardStyle(i);
+          return (
+            <div
+              key={service.title}
+              onClick={() => handleCardClick(i)}
+              className="absolute top-0 left-1/2 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                width: "380px",
+                marginLeft: "-190px",
+                transformStyle: "preserve-3d",
+                cursor: i === activeIndex ? "default" : "pointer",
+                ...style,
+              }}
+            >
+              <ServiceCard service={service} compact />
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="flex items-center justify-center gap-4 mt-6">
+        <button
+          onClick={() => { handleCardClick(activeIndex - 1); }}
+          className="w-10 h-10 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center hover:border-accent hover:text-accent transition-all duration-200 cursor-pointer"
+          aria-label="Précédent"
+        >
+          <ChevronLeft size={18} />
+        </button>
+
+        <div className="flex items-center gap-2">
+          {services.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handleCardClick(i)}
+              className={`rounded-full transition-all duration-300 cursor-pointer ${
+                i === activeIndex
+                  ? "w-6 h-2 bg-accent"
+                  : "w-2 h-2 bg-border hover:bg-foreground-subtle"
+              }`}
+              aria-label={`Service ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={() => { handleCardClick(activeIndex + 1); }}
+          className="w-10 h-10 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center hover:border-accent hover:text-accent transition-all duration-200 cursor-pointer"
+          aria-label="Suivant"
+        >
+          <ChevronRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function MobileCarousel({ services }: { services: Service[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -235,7 +369,6 @@ function MobileCarousel({ services }: { services: (typeof tabs)[number]["service
         ))}
       </div>
 
-      {/* Nav arrows */}
       <div className="flex justify-center gap-3 mt-3">
         <button
           onClick={() => scroll("left")}
@@ -324,23 +457,12 @@ export function Services() {
               {activeData.subtitle}
             </p>
 
-            {/* Mobile: horizontal carousel */}
             <div className="md:hidden">
               <MobileCarousel services={activeData.services} />
             </div>
 
-            {/* Desktop: grid */}
             <div className="hidden md:block">
-              <StaggerContainer
-                stagger={0.06}
-                className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
-              >
-                {activeData.services.map((service) => (
-                  <StaggerItem key={service.title}>
-                    <ServiceCard service={service} />
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
+              <DesktopCarousel3D services={activeData.services} />
             </div>
 
             {activeData.note && (
