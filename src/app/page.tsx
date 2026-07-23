@@ -3,7 +3,6 @@ import { Hero } from "@/components/sections/hero";
 import { Services } from "@/components/sections/services";
 import { Pricing } from "@/components/sections/pricing";
 import { Projects } from "@/components/sections/projects";
-import { Testimonials } from "@/components/sections/testimonials";
 import { Expertise } from "@/components/sections/expertise";
 import { Process } from "@/components/sections/process";
 import { CtaBand } from "@/components/sections/cta-band";
@@ -19,7 +18,6 @@ export default function Home() {
         <Services />
         <Pricing />
         <Projects />
-        <Testimonials />
         <Expertise />
         <Process />
         <CtaBand />

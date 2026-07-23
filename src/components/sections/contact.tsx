@@ -2,7 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mail, MapPin, Clock, Phone, Check, Loader2 } from "lucide-react";
+import { Send, Mail, MapPin, Clock, Check, Loader2 } from "lucide-react";
+import { InstagramIcon } from "@/components/ui/instagram-icon";
 import { Button } from "@/components/ui/button";
 import { FadeIn, SectionDivider, GlowCard } from "@/components/ui/motion";
 
@@ -32,8 +33,8 @@ export function Contact() {
             Demandez votre devis gratuit
           </h2>
           <p className="text-foreground-muted mt-4 max-w-xl mx-auto">
-            Décrivez votre besoin en quelques mots. Je vous réponds sous 24h
-            avec une proposition claire et sans engagement.
+            Décrivez votre besoin en quelques mots. Réponse rapide sous 24h,
+            maquette gratuite offerte pour tout projet web ou design.
           </p>
         </FadeIn>
 
@@ -63,16 +64,16 @@ export function Contact() {
                     htmlFor="email"
                     className="block text-sm font-medium text-foreground-muted mb-2"
                   >
-                    Email ou téléphone
+                    Email
                   </label>
                   <input
-                    type="text"
+                    type="email"
                     id="email"
                     name="email"
                     required
                     autoComplete="email"
                     className="w-full h-11 px-4 text-sm bg-[var(--bg-surface)] border border-border rounded-[var(--radius-md)] text-foreground placeholder:text-foreground-subtle focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all duration-200"
-                    placeholder="jean@email.com ou 06 12 34 56 78"
+                    placeholder="jean@email.com"
                   />
                 </div>
               </div>
@@ -166,49 +167,67 @@ export function Contact() {
 
           <FadeIn direction="right" delay={0.2} className="lg:col-span-2">
             <div className="space-y-6">
-              {[
-                {
-                  icon: Phone,
-                  label: "Téléphone",
-                  value: "06 XX XX XX XX",
-                },
-                {
-                  icon: Mail,
-                  label: "Email",
-                  value: "contact@techanddev.fr",
-                },
-                {
-                  icon: MapPin,
-                  label: "Zone d'intervention",
-                  value: "Île-de-France\nDéplacement ou à distance",
-                },
-                {
-                  icon: Clock,
-                  label: "Disponibilité",
-                  value: "Lun-Sam, 9h-19h\nRéponse sous 24h",
-                },
-              ].map((item) => (
-                <div key={item.label} className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent flex items-center justify-center shrink-0">
-                    <item.icon size={18} strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium mb-1">{item.label}</p>
-                    <p className="text-sm text-foreground-muted whitespace-pre-line">
-                      {item.value}
-                    </p>
-                  </div>
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                  <Mail size={18} strokeWidth={1.8} />
                 </div>
-              ))}
+                <div>
+                  <p className="text-sm font-medium mb-1">Email</p>
+                  <p className="text-sm text-foreground-muted">
+                    Adresse e-mail bientôt disponible
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                  <InstagramIcon size={18} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium mb-1">Instagram</p>
+                  <a
+                    href="https://instagram.com/td.agence"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-accent hover:underline"
+                  >
+                    @td.agence
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                  <MapPin size={18} strokeWidth={1.8} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium mb-1">Zone d&apos;intervention</p>
+                  <p className="text-sm text-foreground-muted whitespace-pre-line">
+                    {"Île-de-France\nDéplacement ou à distance"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                  <Clock size={18} strokeWidth={1.8} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium mb-1">Disponibilité</p>
+                  <p className="text-sm text-foreground-muted whitespace-pre-line">
+                    {"24h/7j\nRéponse rapide sous 24h"}
+                  </p>
+                </div>
+              </div>
 
               <GlowCard className="mt-8">
                 <div className="p-6">
                   <p className="text-sm font-medium mb-4">Ce qui est inclus</p>
                   <ul className="space-y-3 text-sm text-foreground-muted">
                     {[
-                      "Diagnostic gratuit par téléphone",
+                      "Diagnostic gratuit par e-mail",
                       "Devis détaillé sous 24h",
-                      "Maquette offerte (projets web)",
+                      "Maquette offerte (projets web & design)",
                       "Paiement en plusieurs fois possible",
                     ].map((item) => (
                       <li key={item} className="flex items-center gap-3">

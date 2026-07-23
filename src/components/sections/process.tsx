@@ -2,17 +2,17 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Phone, FileSearch, Wrench, Handshake } from "lucide-react";
+import { Mail, FileSearch, Wrench, Handshake } from "lucide-react";
 import { FadeIn, SectionDivider } from "@/components/ui/motion";
 
 const steps = [
   {
     number: "01",
-    icon: Phone,
-    title: "Appel gratuit",
+    icon: Mail,
+    title: "Premier contact",
     description:
-      "On discute de votre besoin par téléphone ou en visio. Pas de jargon, pas d'engagement — juste un échange pour comprendre votre situation.",
-    duration: "15-30 min",
+      "Décrivez votre besoin par e-mail ou via le formulaire. Pas de jargon, pas d'engagement — je vous réponds rapidement pour comprendre votre situation.",
+    duration: "Réponse sous 24h",
   },
   {
     number: "02",

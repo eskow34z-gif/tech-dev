@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { InstagramIcon } from "@/components/ui/instagram-icon";
 import { FadeIn } from "@/components/ui/motion";
 
 const footerLinks = [
@@ -56,6 +57,15 @@ export function Footer() {
                 Agence web premium spécialisée dans la création
                 d&apos;expériences digitales d&apos;exception. Paris, France.
               </p>
+              <a
+                href="https://instagram.com/td.agence"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-4 text-sm text-foreground-muted hover:text-accent transition-colors duration-200"
+              >
+                <InstagramIcon size={16} />
+                @td.agence
+              </a>
             </div>
 
             {footerLinks.map((group) => (

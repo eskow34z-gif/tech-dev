@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { InstagramIcon } from "@/components/ui/instagram-icon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -79,7 +80,16 @@ export function Navbar() {
             ))}
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href="https://instagram.com/td.agence"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-foreground-muted hover:text-accent transition-colors duration-200"
+              aria-label="Instagram"
+            >
+              <InstagramIcon size={18} />
+            </a>
             <Button size="sm">Parlons de votre projet</Button>
           </div>
 
@@ -127,11 +137,27 @@ export function Navbar() {
                   {link.label}
                 </motion.a>
               ))}
+              <motion.a
+                href="https://instagram.com/td.agence"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: links.length * 0.08,
+                  duration: 0.4,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="flex items-center gap-2 text-lg text-foreground-muted hover:text-accent transition-colors"
+              >
+                <InstagramIcon size={20} />
+                @td.agence
+              </motion.a>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  delay: 0.35,
+                  delay: 0.45,
                   duration: 0.4,
                   ease: [0.16, 1, 0.3, 1],
                 }}

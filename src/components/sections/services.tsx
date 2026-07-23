@@ -56,7 +56,7 @@ const tabs = [
         icon: Wrench,
         title: "Dépannage & réparation",
         description:
-          "PC lent, écran bleu, virus ? Diagnostic gratuit par téléphone, intervention rapide sur place ou à distance.",
+          "PC lent, écran bleu, virus ? Diagnostic gratuit par e-mail, intervention rapide sur place ou à distance.",
       },
       {
         icon: HardDrive,
@@ -129,6 +129,7 @@ const tabs = [
     label: "Design Graphique",
     icon: Palette,
     subtitle: "Une image qui marque.",
+    note: "Maquette offerte — visualisez vos visuels avant de vous engager.",
     services: [
       {
         icon: Palette,
@@ -342,7 +343,7 @@ export function Services() {
               </StaggerContainer>
             </div>
 
-            {activeData.id === "web" && activeData.note && (
+            {activeData.note && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
