@@ -58,13 +58,13 @@ export function Footer() {
                 pour les commerces, artisans et indépendants. Île-de-France.
               </p>
               <a
-                href="https://instagram.com/techanddev"
+                href="https://instagram.com/td.agence"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 mt-4 text-sm text-foreground-muted hover:text-accent transition-colors duration-200"
               >
                 <InstagramIcon size={16} />
-                @techanddev
+                @td.agence
               </a>
             </div>
 

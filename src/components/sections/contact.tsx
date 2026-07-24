@@ -173,9 +173,12 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="text-sm font-medium mb-1">Email</p>
-                  <p className="text-sm text-foreground-muted">
-                    Adresse e-mail bientôt disponible
-                  </p>
+                  <a
+                    href="mailto:contact-td.agence@proton.me"
+                    className="text-sm text-accent hover:underline"
+                  >
+                    contact-td.agence@proton.me
+                  </a>
                 </div>
               </div>
 
@@ -186,12 +189,12 @@ export function Contact() {
                 <div>
                   <p className="text-sm font-medium mb-1">Instagram</p>
                   <a
-                    href="https://instagram.com/techanddev"
+                    href="https://instagram.com/td.agence"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-accent hover:underline"
                   >
-                    @techanddev
+                    @td.agence
                   </a>
                 </div>
               </div>

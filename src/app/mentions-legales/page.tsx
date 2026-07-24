@@ -20,8 +20,8 @@ export default function MentionsLegales() {
             </p>
             <ul className="mt-3 space-y-1">
               <li>Responsable de la publication : TECH&DEV</li>
-              <li>Email : <span className="text-accent">contact(at)techanddev.fr</span></li>
-              <li>Instagram : <a href="https://instagram.com/techanddev" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">@techanddev</a></li>
+              <li>Email : <a href="mailto:contact-td.agence@proton.me" className="text-accent hover:underline">contact-td.agence@proton.me</a></li>
+              <li>Instagram : <a href="https://instagram.com/td.agence" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">@td.agence</a></li>
               <li>Zone d&apos;activité : Île-de-France</li>
             </ul>
           </section>
