@@ -1,14 +1,13 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import {
   motion,
   useMotionValue,
   useSpring,
   useTransform,
 } from "framer-motion";
-import { ArrowUpRight, Globe, Palette, Monitor } from "lucide-react";
+import { ArrowUpRight, Palette, Music, Megaphone } from "lucide-react";
 import {
   FadeIn,
   StaggerContainer,
@@ -18,46 +17,38 @@ import {
 
 const projects = [
   {
-    title: "Boulangerie Parisienne",
-    category: "Site vitrine + Google My Business",
+    title: "Emron Collection",
+    category: "Identité visuelle + Communication",
     description:
-      "Un site élégant pour une boulangerie artisanale dans le 11e. Horaires, menu du jour, commande en ligne, et fiche Google optimisée. Résultat : +180% de visites organiques en 3 mois.",
-    tags: ["Site vitrine", "SEO local", "Responsive"],
-    icon: Globe,
-    color: "#F59E0B",
-    image:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_3Go7vHHXqPh2mC3Uk2tfMrHRC5m/hf_20260723_130947_78a47909-e2d7-4f41-a5e7-8df809913526_min.webp",
-  },
-  {
-    title: "Studio Créatif Mila",
-    category: "Identité visuelle complète",
-    description:
-      "Logo, cartes de visite, habillage réseaux sociaux et 20 visuels Instagram pour un studio de tatouage. Une identité forte et cohérente qui reflète l'univers artistique.",
-    tags: ["Logo", "Print", "Réseaux sociaux"],
+      "Direction artistique complète pour la marque streetwear Emron — collection Rebellion Douce. Logo, flyers sold out, visuels lancement, et habillage réseaux sociaux Instagram & TikTok.",
+    tags: ["Branding", "Direction artistique", "Réseaux sociaux"],
     icon: Palette,
     color: "#EC4899",
-    image:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_3Go7vHHXqPh2mC3Uk2tfMrHRC5m/hf_20260723_130949_437bd58e-963d-41b0-a3cb-83356301c3d3_min.webp",
   },
   {
-    title: "Cabinet Durand & Associés",
-    category: "Informatique + Site web",
+    title: "Cali — Papillon",
+    category: "Cover art musicale",
     description:
-      "Migration e-mail pro, installation réseau sécurisé pour 8 postes, et création d'un site vitrine 5 pages. Le cabinet a gagné en crédibilité et en productivité.",
-    tags: ["Réseau", "E-mail pro", "Site 5 pages"],
-    icon: Monitor,
+      "Création de la pochette du single « Papillon » pour le rappeur Cali. Composition visuelle sombre et cinématique avec effets de fumée, papillons et typographie impact.",
+    tags: ["Cover art", "Photomontage", "Direction artistique"],
+    icon: Music,
+    color: "#F59E0B",
+  },
+  {
+    title: "Flyer Services Digital",
+    category: "Design promotionnel",
+    description:
+      "Conception d'un flyer de services digitaux avec style néon gaming. Mise en page claire des prestations, icônes personnalisées et contact direct intégré.",
+    tags: ["Flyer", "Design graphique", "Promo"],
+    icon: Megaphone,
     color: "#3B82F6",
-    image:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_3Go7vHHXqPh2mC3Uk2tfMrHRC5m/hf_20260723_132936_4df14532-14af-49b0-940f-f24d550cb86f_min.webp",
   },
 ];
 
 function ProjectCard({
   project,
-  index,
 }: {
   project: (typeof projects)[number];
-  index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -97,20 +88,6 @@ function ProjectCard({
           background: `radial-gradient(600px circle at 50% 0%, ${project.color}10, transparent 60%)`,
         }}
       />
-
-      {"image" in project && project.image && (
-        <div className="relative w-full aspect-[16/9] overflow-hidden">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-700"
-            sizes="(max-width: 1024px) 100vw, 33vw"
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-surface)] via-transparent to-transparent" />
-        </div>
-      )}
 
       <div className="relative p-6 sm:p-8">
         <div className="flex items-start justify-between mb-6">
@@ -191,9 +168,9 @@ export function Projects() {
           stagger={0.12}
           className="grid grid-cols-1 lg:grid-cols-3 gap-6"
         >
-          {projects.map((project, i) => (
+          {projects.map((project) => (
             <StaggerItem key={project.title}>
-              <ProjectCard project={project} index={i} />
+              <ProjectCard project={project} />
             </StaggerItem>
           ))}
         </StaggerContainer>

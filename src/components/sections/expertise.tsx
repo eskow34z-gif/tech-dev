@@ -11,9 +11,7 @@ import {
   Zap,
   Cpu,
   Wifi,
-  Code2,
   Layers,
-  TrendingUp,
   Users,
 } from "lucide-react";
 import {
@@ -27,17 +25,16 @@ const skills = [
   { name: "Réseau & Wi-Fi", icon: Wifi, color: "#F59E0B" },
   { name: "Sites Web", icon: Globe, color: "#3B82F6" },
   { name: "Design UI/UX", icon: Palette, color: "#8B5CF6" },
-  { name: "SEO", icon: TrendingUp, color: "#22C55E" },
-  { name: "E-commerce", icon: Code2, color: "#EC4899" },
+  { name: "Identité visuelle", icon: Layers, color: "#EC4899" },
   { name: "Sécurité", icon: ShieldCheck, color: "#06B6D4" },
   { name: "Maintenance", icon: Cpu, color: "#F97316" },
 ];
 
 const stats = [
-  { value: "150+", label: "Clients accompagnés" },
-  { value: "98%", label: "Satisfaction client" },
   { value: "24h", label: "Temps de réponse" },
-  { value: "5 ans", label: "D'expérience" },
+  { value: "100%", label: "Sur mesure" },
+  { value: "0€", label: "Devis & diagnostic" },
+  { value: "IDF", label: "Zone couverte" },
 ];
 
 function BentoCard({

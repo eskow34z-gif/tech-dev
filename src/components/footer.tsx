@@ -54,17 +54,17 @@ export function Footer() {
                 </div>
               </a>
               <p className="text-sm text-foreground-muted mt-5 max-w-sm leading-relaxed">
-                Agence web premium spécialisée dans la création
-                d&apos;expériences digitales d&apos;exception. Paris, France.
+                Informatique, création web et design graphique
+                pour les commerces, artisans et indépendants. Île-de-France.
               </p>
               <a
-                href="https://instagram.com/td.agence"
+                href="https://instagram.com/techanddev"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 mt-4 text-sm text-foreground-muted hover:text-accent transition-colors duration-200"
               >
                 <InstagramIcon size={16} />
-                @td.agence
+                @techanddev
               </a>
             </div>
 
@@ -92,13 +92,21 @@ export function Footer() {
           </div>
 
           <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-foreground-subtle">
-              &copy; {new Date().getFullYear()} TECH&DEV Solutions Numériques.
-              Tous droits réservés.
-            </p>
+            <div className="flex items-center gap-4">
+              <p className="text-xs text-foreground-subtle">
+                &copy; {new Date().getFullYear()} TECH&DEV Solutions Numériques.
+                Tous droits réservés.
+              </p>
+              <a
+                href="/mentions-legales"
+                className="text-xs text-foreground-subtle hover:text-accent transition-colors duration-200"
+              >
+                Mentions légales
+              </a>
+            </div>
             <div className="flex items-center gap-6">
               <p className="text-xs text-foreground-subtle">
-                Conçu et développé avec obsession.
+                Innover. Développer. Réussir.
               </p>
               <motion.button
                 onClick={scrollToTop}

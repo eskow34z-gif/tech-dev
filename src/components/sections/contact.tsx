@@ -93,7 +93,7 @@ export function Contact() {
                   <option value="">Choisir une prestation</option>
                   <option value="informatique">Informatique / Dépannage</option>
                   <option value="site-vitrine">Site vitrine</option>
-                  <option value="e-commerce">Boutique en ligne</option>
+                  <option value="identite">Identité visuelle / Flyers</option>
                   <option value="design">Design graphique / Logo</option>
                   <option value="pack">Pack Lancement Commerce</option>
                   <option value="maintenance">Maintenance / Forfait</option>
@@ -186,12 +186,12 @@ export function Contact() {
                 <div>
                   <p className="text-sm font-medium mb-1">Instagram</p>
                   <a
-                    href="https://instagram.com/td.agence"
+                    href="https://instagram.com/techanddev"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-accent hover:underline"
                   >
-                    @td.agence
+                    @techanddev
                   </a>
                 </div>
               </div>

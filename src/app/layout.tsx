@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { AppShell } from "@/components/app-shell";
+import { CookieBanner } from "@/components/cookie-banner";
 import "./globals.css";
 
 const inter = Inter({
@@ -29,18 +30,17 @@ export const metadata: Metadata = {
     template: "%s | TECH&DEV",
   },
   description:
-    "TECH&DEV conçoit des expériences digitales d'exception. Développement web sur-mesure Next.js & React, design UI/UX premium, performance Lighthouse 100/100.",
+    "TECH&DEV Solutions Numériques — Informatique, création web et design graphique pour les commerces, artisans et indépendants en Île-de-France.",
   keywords: [
-    "agence web premium",
-    "développement web",
-    "UI/UX design",
-    "Next.js",
-    "React",
-    "TypeScript",
-    "design system",
+    "informatique",
+    "création web",
+    "design graphique",
+    "site vitrine",
+    "dépannage PC",
+    "réseau",
+    "Île-de-France",
     "Paris",
-    "France",
-    "agence digitale",
+    "freelance",
   ],
   authors: [{ name: "TECH&DEV" }],
   creator: "TECH&DEV",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "TECH&DEV | Agence Web Premium — Paris",
     description:
-      "Expériences digitales d'exception. Design UI/UX premium, développement sur-mesure Next.js & React, performance obsessionnelle.",
+      "Informatique, création web et design graphique pour les commerces, artisans et indépendants en Île-de-France.",
     type: "website",
     locale: "fr_FR",
     siteName: "TECH&DEV",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "TECH&DEV | Agence Web Premium",
     description:
-      "Expériences digitales d'exception. Design premium et développement sur-mesure.",
+      "Informatique, création web et design graphique en Île-de-France.",
     creator: "@techanddev",
   },
   robots: {
@@ -83,7 +83,7 @@ const jsonLd = {
   "@type": "ProfessionalService",
   name: "TECH&DEV",
   description:
-    "Agence web premium spécialisée dans la création d'expériences digitales d'exception.",
+    "Informatique, création web et design graphique pour les commerces, artisans et indépendants en Île-de-France.",
   url: "https://techanddev.fr",
   logo: "https://techanddev.fr/logo-full.svg",
   image: "https://techanddev.fr/logo-icon.svg",
@@ -92,7 +92,7 @@ const jsonLd = {
     addressLocality: "Paris",
     addressCountry: "FR",
   },
-  priceRange: "€€€",
+  priceRange: "€-€€",
   areaServed: {
     "@type": "GeoCircle",
     geoMidpoint: { "@type": "GeoCoordinates", latitude: 48.8566, longitude: 2.3522 },
@@ -129,6 +129,7 @@ export default function RootLayout({
         <AppShell>
           {children}
         </AppShell>
+        <CookieBanner />
       </body>
     </html>
   );

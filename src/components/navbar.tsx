@@ -82,7 +82,7 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center gap-3">
             <a
-              href="https://instagram.com/td.agence"
+              href="https://instagram.com/techanddev"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-foreground-muted hover:text-accent transition-colors duration-200"
@@ -138,7 +138,7 @@ export function Navbar() {
                 </motion.a>
               ))}
               <motion.a
-                href="https://instagram.com/td.agence"
+                href="https://instagram.com/techanddev"
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
@@ -151,7 +151,7 @@ export function Navbar() {
                 className="flex items-center gap-2 text-lg text-foreground-muted hover:text-accent transition-colors"
               >
                 <InstagramIcon size={20} />
-                @td.agence
+                @techanddev
               </motion.a>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
