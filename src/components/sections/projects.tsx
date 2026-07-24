@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import {
@@ -10,7 +10,7 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import { ArrowUpRight, Palette, Music, Megaphone, X } from "lucide-react";
+import { ArrowUpRight, Palette, Music, Megaphone } from "lucide-react";
 import {
   FadeIn,
   StaggerContainer,
@@ -52,62 +52,47 @@ const projects = [
   },
 ];
 
-function ImagePreviewOverlay({
+function CursorPreview({
   src,
   alt,
   color,
-  onClose,
+  mouseX,
+  mouseY,
 }: {
   src: string;
   alt: string;
   color: string;
-  onClose: () => void;
+  mouseX: number;
+  mouseY: number;
 }) {
+  const springX = useSpring(mouseX, { stiffness: 500, damping: 40 });
+  const springY = useSpring(mouseY, { stiffness: 500, damping: 40 });
+
+  useEffect(() => { springX.set(mouseX); }, [mouseX, springX]);
+  useEffect(() => { springY.set(mouseY); }, [mouseY, springY]);
+
   return createPortal(
-    <AnimatePresence>
+    <motion.div
+      className="fixed z-[200] pointer-events-none"
+      style={{ left: springX, top: springY, x: 20, y: -120 }}
+    >
       <motion.div
-        key="overlay"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8"
-        style={{ backdropFilter: "blur(16px)", background: "rgba(0,0,0,0.75)" }}
-        onMouseLeave={onClose}
-        onClick={onClose}
+        initial={{ opacity: 0, scale: 0.88 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.88 }}
+        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        className="w-[220px] rounded-xl overflow-hidden shadow-2xl border border-white/10"
+        style={{ boxShadow: `0 8px 40px rgba(0,0,0,0.6), 0 0 30px ${color}25` }}
       >
-        <motion.div
-          key="image-box"
-          initial={{ opacity: 0, scale: 0.85, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.85, y: 20 }}
-          transition={{ type: "spring", stiffness: 300, damping: 28 }}
-          className="relative max-h-[88vh] max-w-[560px] w-full rounded-2xl overflow-hidden shadow-2xl"
-          style={{ boxShadow: `0 0 80px ${color}30, 0 32px 64px rgba(0,0,0,0.6)` }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* glow border */}
-          <div
-            className="absolute -inset-[1px] rounded-2xl -z-10"
-            style={{ background: `linear-gradient(135deg, ${color}60, transparent 60%)` }}
-          />
-          <Image
-            src={src}
-            alt={alt}
-            width={560}
-            height={800}
-            className="w-full h-auto object-contain"
-            style={{ maxHeight: "85vh" }}
-          />
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-colors"
-          >
-            <X size={14} />
-          </button>
-        </motion.div>
+        <Image
+          src={src}
+          alt={alt}
+          width={220}
+          height={320}
+          className="w-full h-auto object-contain"
+        />
       </motion.div>
-    </AnimatePresence>,
+    </motion.div>,
     document.body
   );
 }
@@ -118,7 +103,8 @@ function ProjectCard({
   project: (typeof projects)[number];
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useSpring(useTransform(y, [-100, 100], [3, -3]), {
@@ -142,16 +128,23 @@ function ProjectCard({
     y.set(0);
   };
 
+  const handleImageMouseMove = (e: React.MouseEvent) => {
+    setCursorPos({ x: e.clientX, y: e.clientY });
+  };
+
   return (
     <>
-      {previewOpen && (
-        <ImagePreviewOverlay
-          src={project.image}
-          alt={project.title}
-          color={project.color}
-          onClose={() => setPreviewOpen(false)}
-        />
-      )}
+      <AnimatePresence>
+        {previewVisible && (
+          <CursorPreview
+            src={project.image}
+            alt={project.title}
+            color={project.color}
+            mouseX={cursorPos.x}
+            mouseY={cursorPos.y}
+          />
+        )}
+      </AnimatePresence>
 
       <motion.div
         ref={ref}
@@ -168,11 +161,13 @@ function ProjectCard({
           }}
         />
 
-        {/* Image thumbnail — hover to preview */}
+        {/* Image thumbnail */}
         <div
-          className="relative w-full overflow-hidden cursor-zoom-in"
+          className="relative w-full overflow-hidden cursor-none"
           style={{ height: "200px" }}
-          onMouseEnter={() => setPreviewOpen(true)}
+          onMouseEnter={() => setPreviewVisible(true)}
+          onMouseLeave={() => setPreviewVisible(false)}
+          onMouseMove={handleImageMouseMove}
         >
           <Image
             src={project.image}
@@ -181,16 +176,6 @@ function ProjectCard({
             className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 1024px) 100vw, 33vw"
           />
-          {/* hover hint */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: 1 }}
-            className="absolute inset-0 flex items-center justify-center bg-black/30"
-          >
-            <span className="text-xs font-medium text-white/90 tracking-widest uppercase bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
-              Voir le visuel
-            </span>
-          </motion.div>
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
