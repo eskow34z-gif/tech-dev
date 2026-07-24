@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import {
   motion,
   useMotionValue,
@@ -25,6 +26,7 @@ const projects = [
     tags: ["Branding", "Direction artistique", "Réseaux sociaux"],
     icon: Palette,
     color: "#EC4899",
+    image: "/portfolio/emron-lancement.png",
   },
   {
     title: "Cali — Papillon",
@@ -34,6 +36,7 @@ const projects = [
     tags: ["Cover art", "Photomontage", "Direction artistique"],
     icon: Music,
     color: "#F59E0B",
+    image: "/portfolio/cali-papillon.png",
   },
   {
     title: "Flyer Services Digital",
@@ -43,6 +46,7 @@ const projects = [
     tags: ["Flyer", "Design graphique", "Promo"],
     icon: Megaphone,
     color: "#3B82F6",
+    image: "/portfolio/td-flyer.png",
   },
 ];
 
@@ -90,6 +94,23 @@ function ProjectCard({
           background: `radial-gradient(600px circle at 50% 0%, ${project.color}10, transparent 60%)`,
         }}
       />
+
+      {/* Image preview */}
+      <div className="relative w-full overflow-hidden" style={{ height: "200px" }}>
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          sizes="(max-width: 1024px) 100vw, 33vw"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(to bottom, transparent 40%, var(--bg-surface) 100%)`,
+          }}
+        />
+      </div>
 
       <div className="relative p-6 sm:p-8">
         <div className="flex items-start justify-between mb-6">
