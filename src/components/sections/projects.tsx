@@ -1,14 +1,16 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
+import { createPortal } from "react-dom";
 import {
   motion,
   useMotionValue,
   useSpring,
   useTransform,
+  AnimatePresence,
 } from "framer-motion";
-import { ArrowUpRight, Palette, Music, Megaphone } from "lucide-react";
+import { ArrowUpRight, Palette, Music, Megaphone, X } from "lucide-react";
 import {
   FadeIn,
   StaggerContainer,
@@ -50,12 +52,73 @@ const projects = [
   },
 ];
 
+function ImagePreviewOverlay({
+  src,
+  alt,
+  color,
+  onClose,
+}: {
+  src: string;
+  alt: string;
+  color: string;
+  onClose: () => void;
+}) {
+  return createPortal(
+    <AnimatePresence>
+      <motion.div
+        key="overlay"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8"
+        style={{ backdropFilter: "blur(16px)", background: "rgba(0,0,0,0.75)" }}
+        onMouseLeave={onClose}
+        onClick={onClose}
+      >
+        <motion.div
+          key="image-box"
+          initial={{ opacity: 0, scale: 0.85, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.85, y: 20 }}
+          transition={{ type: "spring", stiffness: 300, damping: 28 }}
+          className="relative max-h-[88vh] max-w-[560px] w-full rounded-2xl overflow-hidden shadow-2xl"
+          style={{ boxShadow: `0 0 80px ${color}30, 0 32px 64px rgba(0,0,0,0.6)` }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* glow border */}
+          <div
+            className="absolute -inset-[1px] rounded-2xl -z-10"
+            style={{ background: `linear-gradient(135deg, ${color}60, transparent 60%)` }}
+          />
+          <Image
+            src={src}
+            alt={alt}
+            width={560}
+            height={800}
+            className="w-full h-auto object-contain"
+            style={{ maxHeight: "85vh" }}
+          />
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-colors"
+          >
+            <X size={14} />
+          </button>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>,
+    document.body
+  );
+}
+
 function ProjectCard({
   project,
 }: {
   project: (typeof projects)[number];
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useSpring(useTransform(y, [-100, 100], [3, -3]), {
@@ -80,94 +143,119 @@ function ProjectCard({
   };
 
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformPerspective: 1000 }}
-      className="group relative overflow-hidden rounded-[var(--radius-xl)] border border-border bg-[var(--bg-surface)] hover:border-[var(--border-hover)] transition-colors duration-300"
-    >
-      <Spotlight className="from-white/8 via-white/4 to-transparent" size={250} />
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          background: `radial-gradient(600px circle at 50% 0%, ${project.color}10, transparent 60%)`,
-        }}
-      />
-
-      {/* Image preview */}
-      <div className="relative w-full overflow-hidden" style={{ height: "200px" }}>
-        <Image
+    <>
+      {previewOpen && (
+        <ImagePreviewOverlay
           src={project.image}
           alt={project.title}
-          fill
-          className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-          sizes="(max-width: 1024px) 100vw, 33vw"
+          color={project.color}
+          onClose={() => setPreviewOpen(false)}
         />
+      )}
+
+      <motion.div
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{ rotateX, rotateY, transformPerspective: 1000 }}
+        className="group relative overflow-hidden rounded-[var(--radius-xl)] border border-border bg-[var(--bg-surface)] hover:border-[var(--border-hover)] transition-colors duration-300"
+      >
+        <Spotlight className="from-white/8 via-white/4 to-transparent" size={250} />
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           style={{
-            background: `linear-gradient(to bottom, transparent 40%, var(--bg-surface) 100%)`,
+            background: `radial-gradient(600px circle at 50% 0%, ${project.color}10, transparent 60%)`,
           }}
         />
-      </div>
 
-      <div className="relative p-6 sm:p-8">
-        <div className="flex items-start justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <div
-              className="w-12 h-12 rounded-[var(--radius-lg)] flex items-center justify-center transition-shadow duration-300 group-hover:shadow-lg"
-              style={{ background: `${project.color}15` }}
-            >
-              <project.icon
-                size={22}
-                style={{ color: project.color }}
-                strokeWidth={1.8}
-              />
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold group-hover:text-accent transition-colors duration-300">
-                {project.title}
-              </h3>
-              <p className="text-xs text-foreground-subtle mt-0.5">
-                {project.category}
-              </p>
-            </div>
-          </div>
+        {/* Image thumbnail — hover to preview */}
+        <div
+          className="relative w-full overflow-hidden cursor-zoom-in"
+          style={{ height: "200px" }}
+          onMouseEnter={() => setPreviewOpen(true)}
+        >
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 1024px) 100vw, 33vw"
+          />
+          {/* hover hint */}
           <motion.div
-            whileHover={{ scale: 1.1 }}
-            className="w-10 h-10 rounded-full border border-border flex items-center justify-center group-hover:border-accent group-hover:text-accent group-hover:shadow-[0_0_15px_var(--accent-glow)] transition-all duration-300 shrink-0"
+            initial={{ opacity: 0 }}
+            whileHover={{ opacity: 1 }}
+            className="absolute inset-0 flex items-center justify-center bg-black/30"
           >
-            <ArrowUpRight
-              size={16}
-              className="group-hover:rotate-0 -rotate-12 transition-transform duration-300"
-            />
-          </motion.div>
-        </div>
-
-        <p className="text-sm text-foreground-muted leading-relaxed mb-6">
-          {project.description}
-        </p>
-
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-xs px-3 py-1.5 rounded-[var(--radius-full)] bg-white/[0.04] text-foreground-subtle border border-border group-hover:border-[var(--border-hover)] transition-colors duration-300"
-            >
-              {tag}
+            <span className="text-xs font-medium text-white/90 tracking-widest uppercase bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
+              Voir le visuel
             </span>
-          ))}
+          </motion.div>
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `linear-gradient(to bottom, transparent 40%, var(--bg-surface) 100%)`,
+            }}
+          />
         </div>
-      </div>
 
-      <div
-        className="h-1 w-full opacity-50 group-hover:opacity-100 transition-opacity duration-300"
-        style={{
-          background: `linear-gradient(90deg, transparent, ${project.color}, transparent)`,
-        }}
-      />
-    </motion.div>
+        <div className="relative p-6 sm:p-8">
+          <div className="flex items-start justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div
+                className="w-12 h-12 rounded-[var(--radius-lg)] flex items-center justify-center transition-shadow duration-300 group-hover:shadow-lg"
+                style={{ background: `${project.color}15` }}
+              >
+                <project.icon
+                  size={22}
+                  style={{ color: project.color }}
+                  strokeWidth={1.8}
+                />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold group-hover:text-accent transition-colors duration-300">
+                  {project.title}
+                </h3>
+                <p className="text-xs text-foreground-subtle mt-0.5">
+                  {project.category}
+                </p>
+              </div>
+            </div>
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              className="w-10 h-10 rounded-full border border-border flex items-center justify-center group-hover:border-accent group-hover:text-accent group-hover:shadow-[0_0_15px_var(--accent-glow)] transition-all duration-300 shrink-0"
+            >
+              <ArrowUpRight
+                size={16}
+                className="group-hover:rotate-0 -rotate-12 transition-transform duration-300"
+              />
+            </motion.div>
+          </div>
+
+          <p className="text-sm text-foreground-muted leading-relaxed mb-6">
+            {project.description}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="text-xs px-3 py-1.5 rounded-[var(--radius-full)] bg-white/[0.04] text-foreground-subtle border border-border group-hover:border-[var(--border-hover)] transition-colors duration-300"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div
+          className="h-1 w-full opacity-50 group-hover:opacity-100 transition-opacity duration-300"
+          style={{
+            background: `linear-gradient(90deg, transparent, ${project.color}, transparent)`,
+          }}
+        />
+      </motion.div>
+    </>
   );
 }
 
