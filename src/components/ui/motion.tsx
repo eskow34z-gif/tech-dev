@@ -118,10 +118,12 @@ export function TextReveal({
   children,
   className,
   delay = 0,
+  onAnimationComplete,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  onAnimationComplete?: () => void;
 }) {
   return (
     <div className={cn("overflow-hidden", className)}>
@@ -134,6 +136,7 @@ export function TextReveal({
           delay,
           ease: [0.16, 1, 0.3, 1],
         }}
+        onAnimationComplete={onAnimationComplete}
       >
         {children}
       </motion.div>

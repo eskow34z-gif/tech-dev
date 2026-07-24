@@ -1,12 +1,14 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MagneticHover, TextReveal } from "@/components/ui/motion";
+import { TextScramble } from "@/components/ui/text-scramble";
 
 export function Hero() {
+  const [scrambleTrigger, setScrambleTrigger] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -57,11 +59,18 @@ export function Hero() {
             Votre partenaire
           </h1>
         </TextReveal>
-        <TextReveal delay={0.2}>
+        <TextReveal delay={0.2} onAnimationComplete={() => setScrambleTrigger(true)}>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
-            <span className="bg-gradient-to-r from-accent via-[#3B82F6] to-accent bg-[length:200%_auto] animate-[gradient-shift_4s_ease-in-out_infinite] bg-clip-text text-transparent">
+            <TextScramble
+              as="span"
+              className="bg-gradient-to-r from-accent via-[#3B82F6] to-accent bg-[length:200%_auto] animate-[gradient-shift_4s_ease-in-out_infinite] bg-clip-text text-transparent"
+              trigger={scrambleTrigger}
+              duration={1.2}
+              speed={0.03}
+              characterSet="TECHDEV&01"
+            >
               tech de confiance
-            </span>
+            </TextScramble>
           </h1>
         </TextReveal>
         <TextReveal delay={0.3}>

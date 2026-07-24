@@ -14,6 +14,7 @@ import {
   StaggerItem,
   SectionDivider,
 } from "@/components/ui/motion";
+import { Spotlight } from "@/components/ui/spotlight";
 
 const projects = [
   {
@@ -82,6 +83,7 @@ function ProjectCard({
       style={{ rotateX, rotateY, transformPerspective: 1000 }}
       className="group relative overflow-hidden rounded-[var(--radius-xl)] border border-border bg-[var(--bg-surface)] hover:border-[var(--border-hover)] transition-colors duration-300"
     >
+      <Spotlight className="from-white/8 via-white/4 to-transparent" size={250} />
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
