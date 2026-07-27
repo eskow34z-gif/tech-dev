@@ -10,7 +10,8 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     let current = 0;
     let startTime = performance.now();
-    const duration = 2800;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const duration = isMobile ? 1200 : 2800;
     let raf: number;
 
     function tick() {
@@ -24,11 +25,13 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       setProgress(Math.floor(current));
 
       if (current >= 100) {
-        setTimeout(() => setPhase("revealing"), 400);
+        const revealDelay = isMobile ? 150 : 400;
+        const doneDelay = isMobile ? 800 : 1800;
+        setTimeout(() => setPhase("revealing"), revealDelay);
         setTimeout(() => {
           setPhase("done");
           onComplete();
-        }, 1800);
+        }, doneDelay);
         return;
       }
       raf = requestAnimationFrame(tick);

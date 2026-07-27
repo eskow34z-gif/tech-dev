@@ -1,9 +1,14 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { Preloader } from "./preloader";
-import { Scene3D } from "./three/scene-3d";
+
+const Scene3D = dynamic(
+  () => import("./three/scene-3d").then((m) => m.Scene3D),
+  { ssr: false }
+);
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
