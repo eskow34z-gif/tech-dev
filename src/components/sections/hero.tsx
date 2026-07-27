@@ -55,12 +55,12 @@ export function Hero() {
         className="relative z-10 mx-auto max-w-5xl px-6 lg:px-8 text-center"
       >
         <TextReveal delay={0.1}>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
             Votre partenaire
           </h1>
         </TextReveal>
         <TextReveal delay={0.2} onAnimationComplete={() => setScrambleTrigger(true)}>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
             <TextScramble
               as="span"
               className="bg-gradient-to-r from-accent via-[#3B82F6] to-accent bg-[length:200%_auto] animate-[gradient-shift_4s_ease-in-out_infinite] bg-clip-text text-transparent"
@@ -74,7 +74,7 @@ export function Hero() {
           </h1>
         </TextReveal>
         <TextReveal delay={0.3}>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-8">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-5 sm:mb-8">
             en Île-de-France
           </h1>
         </TextReveal>
@@ -83,7 +83,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="text-lg sm:text-xl text-foreground-muted max-w-2xl mx-auto mb-12 leading-relaxed"
+          className="text-base sm:text-xl text-foreground-muted max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed"
         >
           Informatique, création web et design graphique pour les commerces,
           artisans et indépendants qui veulent se démarquer.

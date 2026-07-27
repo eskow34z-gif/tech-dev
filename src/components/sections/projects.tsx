@@ -10,7 +10,7 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import { ArrowUpRight, Palette, Music, Megaphone } from "lucide-react";
+import { ArrowUpRight, Palette, Music, Megaphone, X, ZoomIn } from "lucide-react";
 import {
   FadeIn,
   StaggerContainer,
@@ -51,6 +51,50 @@ const projects = [
     image: "/portfolio/td-flyer.png",
   },
 ];
+
+function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[300] flex items-center justify-center bg-black/92 backdrop-blur-md"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.88, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.88, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 350, damping: 30 }}
+        className="relative max-w-[88vw] max-h-[85vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Image
+          src={src}
+          alt={alt}
+          width={500}
+          height={700}
+          className="w-auto max-h-[82vh] rounded-xl object-contain shadow-2xl"
+        />
+        <button
+          onClick={onClose}
+          className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+          aria-label="Fermer"
+        >
+          <X size={14} />
+        </button>
+      </motion.div>
+    </motion.div>,
+    document.body
+  );
+}
 
 function CursorPreview({
   src,
@@ -104,7 +148,13 @@ function ProjectCard({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [previewVisible, setPreviewVisible] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    setIsTouch(window.matchMedia("(hover: none)").matches);
+  }, []);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useSpring(useTransform(y, [-100, 100], [3, -3]), {
@@ -135,13 +185,20 @@ function ProjectCard({
   return (
     <>
       <AnimatePresence>
-        {previewVisible && (
+        {previewVisible && !isTouch && (
           <CursorPreview
             src={project.image}
             alt={project.title}
             color={project.color}
             mouseX={cursorPos.x}
             mouseY={cursorPos.y}
+          />
+        )}
+        {lightboxOpen && (
+          <ImageLightbox
+            src={project.image}
+            alt={project.title}
+            onClose={() => setLightboxOpen(false)}
           />
         )}
       </AnimatePresence>
@@ -163,12 +220,18 @@ function ProjectCard({
 
         {/* Image thumbnail */}
         <div
-          className="relative w-full overflow-hidden cursor-none"
+          className={`relative w-full overflow-hidden ${isTouch ? "cursor-pointer" : "cursor-none"}`}
           style={{ height: "200px" }}
-          onMouseEnter={() => setPreviewVisible(true)}
+          onMouseEnter={() => !isTouch && setPreviewVisible(true)}
           onMouseLeave={() => setPreviewVisible(false)}
           onMouseMove={handleImageMouseMove}
+          onClick={() => isTouch && setLightboxOpen(true)}
         >
+          {isTouch && (
+            <div className="absolute bottom-2 right-2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white/20 flex items-center justify-center text-white pointer-events-none">
+              <ZoomIn size={14} />
+            </div>
+          )}
           <Image
             src={project.image}
             alt={project.title}

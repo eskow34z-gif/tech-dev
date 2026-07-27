@@ -3,20 +3,19 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function Preloader({ onComplete }: { onComplete: () => void }) {
+export function Preloader({ onComplete, isDesktop = true }: { onComplete: () => void; isDesktop?: boolean }) {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"loading" | "revealing" | "done">("loading");
 
   useEffect(() => {
     let current = 0;
     let startTime = performance.now();
-    const duration = 2800;
+    const duration = isDesktop ? 2800 : 1200;
     let raf: number;
 
     function tick() {
       const elapsed = performance.now() - startTime;
       const t = Math.min(elapsed / duration, 1);
-      // Ease-out curve: fast start, slow finish
       current = t < 0.6
         ? t / 0.6 * 70
         : 70 + ((t - 0.6) / 0.4) * 30;
@@ -24,11 +23,13 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       setProgress(Math.floor(current));
 
       if (current >= 100) {
-        setTimeout(() => setPhase("revealing"), 400);
+        const revealDelay = isDesktop ? 400 : 150;
+        const doneDelay = isDesktop ? 1800 : 700;
+        setTimeout(() => setPhase("revealing"), revealDelay);
         setTimeout(() => {
           setPhase("done");
           onComplete();
-        }, 1800);
+        }, doneDelay);
         return;
       }
       raf = requestAnimationFrame(tick);
@@ -36,7 +37,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [onComplete]);
+  }, [onComplete, isDesktop]);
 
   return (
     <AnimatePresence>
