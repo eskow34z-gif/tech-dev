@@ -393,16 +393,15 @@ function MobileCarousel({ services }: { services: Service[] }) {
             <button
               key={i}
               onClick={() => scrollToIndex(i)}
-              aria-label={`Service ${i + 1}`}
               className={`rounded-full transition-all duration-300 cursor-pointer ${
                 i === activeIndex
                   ? "w-5 h-1.5 bg-accent"
                   : "w-1.5 h-1.5 bg-border"
               }`}
+              aria-label={`Service ${i + 1}`}
             />
           ))}
         </div>
-
         <button
           onClick={() => scroll("right")}
           disabled={!canScrollRight}

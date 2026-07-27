@@ -74,7 +74,7 @@ export function Hero() {
           </h1>
         </TextReveal>
         <TextReveal delay={0.3}>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-5 sm:mb-8">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-6 sm:mb-8">
             en Île-de-France
           </h1>
         </TextReveal>
