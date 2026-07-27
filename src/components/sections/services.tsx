@@ -334,12 +334,15 @@ function MobileCarousel({ services }: { services: Service[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const checkScroll = () => {
     if (!scrollRef.current) return;
     const el = scrollRef.current;
     setCanScrollLeft(el.scrollLeft > 4);
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+    const cardWidth = el.clientWidth * 0.78 + 12;
+    setActiveIndex(Math.round(el.scrollLeft / cardWidth));
   };
 
   const scroll = (dir: "left" | "right") => {
@@ -347,6 +350,15 @@ function MobileCarousel({ services }: { services: Service[] }) {
     const cardWidth = scrollRef.current.clientWidth * 0.78;
     scrollRef.current.scrollBy({
       left: dir === "left" ? -cardWidth : cardWidth,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!scrollRef.current) return;
+    const cardWidth = scrollRef.current.clientWidth * 0.78 + 12;
+    scrollRef.current.scrollTo({
+      left: index * cardWidth,
       behavior: "smooth",
     });
   };
@@ -369,7 +381,7 @@ function MobileCarousel({ services }: { services: Service[] }) {
         ))}
       </div>
 
-      <div className="flex justify-center gap-3 mt-3">
+      <div className="flex items-center justify-center gap-3 mt-3">
         <button
           onClick={() => scroll("left")}
           disabled={!canScrollLeft}
@@ -377,6 +389,20 @@ function MobileCarousel({ services }: { services: Service[] }) {
         >
           <ChevronLeft size={16} />
         </button>
+        <div className="flex items-center gap-1.5">
+          {services.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToIndex(i)}
+              className={`rounded-full transition-all duration-300 ${
+                i === activeIndex
+                  ? "w-5 h-1.5 bg-accent"
+                  : "w-1.5 h-1.5 bg-border"
+              }`}
+              aria-label={`Service ${i + 1}`}
+            />
+          ))}
+        </div>
         <button
           onClick={() => scroll("right")}
           disabled={!canScrollRight}
@@ -418,6 +444,7 @@ export function Services() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
+                  aria-label={tab.label}
                   className={`relative flex items-center gap-2 px-4 sm:px-6 py-2.5 text-sm font-medium rounded-[var(--radius-md)] transition-colors duration-200 cursor-pointer ${
                     activeTab === tab.id
                       ? "text-foreground"

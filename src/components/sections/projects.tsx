@@ -97,6 +97,45 @@ function CursorPreview({
   );
 }
 
+function MobileLightbox({
+  src,
+  alt,
+  onClose,
+}: {
+  src: string;
+  alt: string;
+  onClose: () => void;
+}) {
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className="relative max-w-full max-h-[80vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Image
+          src={src}
+          alt={alt}
+          width={600}
+          height={900}
+          className="w-auto h-auto max-h-[80vh] rounded-xl object-contain"
+        />
+      </motion.div>
+    </motion.div>,
+    document.body
+  );
+}
+
 function ProjectCard({
   project,
 }: {
@@ -104,6 +143,7 @@ function ProjectCard({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [previewVisible, setPreviewVisible] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -144,6 +184,13 @@ function ProjectCard({
             mouseY={cursorPos.y}
           />
         )}
+        {lightboxOpen && (
+          <MobileLightbox
+            src={project.image}
+            alt={project.title}
+            onClose={() => setLightboxOpen(false)}
+          />
+        )}
       </AnimatePresence>
 
       <motion.div
@@ -161,13 +208,17 @@ function ProjectCard({
           }}
         />
 
-        {/* Image thumbnail */}
         <div
-          className="relative w-full overflow-hidden cursor-none"
+          className="relative w-full overflow-hidden md:cursor-none"
           style={{ height: "200px" }}
           onMouseEnter={() => setPreviewVisible(true)}
           onMouseLeave={() => setPreviewVisible(false)}
           onMouseMove={handleImageMouseMove}
+          onClick={() => {
+            if (window.matchMedia("(hover: none)").matches) {
+              setLightboxOpen(true);
+            }
+          }}
         >
           <Image
             src={project.image}
