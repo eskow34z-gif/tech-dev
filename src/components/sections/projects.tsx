@@ -10,7 +10,7 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import { ArrowUpRight, Palette, Music, Megaphone, X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, Palette, Music, Megaphone, RefreshCw, X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   FadeIn,
   StaggerContainer,
@@ -49,6 +49,16 @@ const projects = [
     icon: Megaphone,
     color: "#3B82F6",
     image: "/portfolio/nike-ensembles.png",
+  },
+  {
+    title: "Emron — Restock",
+    category: "Communication / Promotion",
+    description:
+      "Visuel d'annonce de restock pour la marque Emron, dans la continuité de l'identité Rebellion Douce. Mise en avant du compte à rebours, du code promo et des réseaux sociaux de la marque.",
+    tags: ["Communication", "Réseaux sociaux", "Direction artistique"],
+    icon: RefreshCw,
+    color: "#EC4899",
+    image: "/portfolio/emron-restock.png",
   },
 ];
 
@@ -453,7 +463,7 @@ export function Projects() {
         <div className="hidden lg:block">
           <StaggerContainer
             stagger={0.12}
-            className="grid grid-cols-3 gap-6"
+            className="grid grid-cols-2 gap-6"
           >
             {projects.map((project) => (
               <StaggerItem key={project.title}>
