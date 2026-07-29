@@ -10,7 +10,7 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import { ArrowUpRight, Palette, Music, Megaphone, X, ZoomIn } from "lucide-react";
+import { ArrowUpRight, Palette, Music, Megaphone, X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   FadeIn,
   StaggerContainer,
@@ -345,6 +345,91 @@ function ProjectCard({
   );
 }
 
+function MobileProjectsCarousel() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const checkScroll = () => {
+    if (!scrollRef.current) return;
+    const el = scrollRef.current;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+    const cardWidth = el.clientWidth * 0.85 + 16;
+    setActiveIndex(Math.round(el.scrollLeft / cardWidth));
+  };
+
+  const scroll = (dir: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const cardWidth = scrollRef.current.clientWidth * 0.85;
+    scrollRef.current.scrollBy({
+      left: dir === "left" ? -cardWidth : cardWidth,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollToIndex = (i: number) => {
+    if (!scrollRef.current) return;
+    const cardWidth = scrollRef.current.clientWidth * 0.85 + 16;
+    scrollRef.current.scrollTo({ left: i * cardWidth, behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative">
+      <div
+        ref={scrollRef}
+        onScroll={checkScroll}
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 -mx-6 px-6"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {projects.map((project) => (
+          <div
+            key={project.title}
+            className="flex-shrink-0 w-[85%] snap-start"
+          >
+            <ProjectCard project={project} />
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-center gap-3 mt-3">
+        <button
+          onClick={() => scroll("left")}
+          disabled={!canScrollLeft}
+          aria-label="Précédent"
+          className="w-8 h-8 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center disabled:opacity-30 transition-opacity"
+        >
+          <ChevronLeft size={16} />
+        </button>
+
+        <div className="flex items-center gap-1.5">
+          {projects.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToIndex(i)}
+              className={`rounded-full transition-all duration-300 cursor-pointer ${
+                i === activeIndex
+                  ? "w-5 h-1.5 bg-accent"
+                  : "w-1.5 h-1.5 bg-border"
+              }`}
+              aria-label={`Projet ${i + 1}`}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => scroll("right")}
+          disabled={!canScrollRight}
+          aria-label="Suivant"
+          className="w-8 h-8 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center disabled:opacity-30 transition-opacity"
+        >
+          <ChevronRight size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function Projects() {
   return (
     <section id="projects" className="py-14 sm:py-32 relative">
@@ -361,16 +446,22 @@ export function Projects() {
           </h2>
         </FadeIn>
 
-        <StaggerContainer
-          stagger={0.12}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-6"
-        >
-          {projects.map((project) => (
-            <StaggerItem key={project.title}>
-              <ProjectCard project={project} />
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        <div className="lg:hidden">
+          <MobileProjectsCarousel />
+        </div>
+
+        <div className="hidden lg:block">
+          <StaggerContainer
+            stagger={0.12}
+            className="grid grid-cols-3 gap-6"
+          >
+            {projects.map((project) => (
+              <StaggerItem key={project.title}>
+                <ProjectCard project={project} />
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
       </div>
     </section>
   );
