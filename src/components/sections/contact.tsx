@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Mail, MapPin, Clock, Check, Loader2 } from "lucide-react";
 import { InstagramIcon } from "@/components/ui/instagram-icon";
+import { TikTokIcon } from "@/components/ui/tiktok-icon";
 import { Button } from "@/components/ui/button";
 import { FadeIn, SectionDivider, GlowCard } from "@/components/ui/motion";
 
@@ -195,6 +196,23 @@ export function Contact() {
                     className="text-sm text-accent hover:underline"
                   >
                     @td.agence
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                  <TikTokIcon size={18} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium mb-1">TikTok</p>
+                  <a
+                    href="https://tiktok.com/@techdev.agence"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-accent hover:underline"
+                  >
+                    @techdev.agence
                   </a>
                 </div>
               </div>

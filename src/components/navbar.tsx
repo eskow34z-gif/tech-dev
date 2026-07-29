@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { InstagramIcon } from "@/components/ui/instagram-icon";
+import { TikTokIcon } from "@/components/ui/tiktok-icon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -90,6 +91,15 @@ export function Navbar() {
             >
               <InstagramIcon size={18} />
             </a>
+            <a
+              href="https://tiktok.com/@techdev.agence"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-foreground-muted hover:text-accent transition-colors duration-200"
+              aria-label="TikTok"
+            >
+              <TikTokIcon size={18} />
+            </a>
             <Button size="sm">Parlons de votre projet</Button>
           </div>
 
@@ -152,6 +162,22 @@ export function Navbar() {
               >
                 <InstagramIcon size={20} />
                 @td.agence
+              </motion.a>
+              <motion.a
+                href="https://tiktok.com/@techdev.agence"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: links.length * 0.08 + 0.05,
+                  duration: 0.4,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="flex items-center gap-2 text-lg text-foreground-muted hover:text-accent transition-colors"
+              >
+                <TikTokIcon size={20} />
+                @techdev.agence
               </motion.a>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

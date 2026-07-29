@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { InstagramIcon } from "@/components/ui/instagram-icon";
+import { TikTokIcon } from "@/components/ui/tiktok-icon";
 import { FadeIn } from "@/components/ui/motion";
 
 const footerLinks = [
@@ -57,15 +58,26 @@ export function Footer() {
                 Informatique, création web et design graphique
                 pour les commerces, artisans et indépendants. Île-de-France.
               </p>
-              <a
-                href="https://instagram.com/td.agence"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-4 text-sm text-foreground-muted hover:text-accent transition-colors duration-200"
-              >
-                <InstagramIcon size={16} />
-                @td.agence
-              </a>
+              <div className="flex items-center gap-4 mt-4">
+                <a
+                  href="https://instagram.com/td.agence"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent transition-colors duration-200"
+                >
+                  <InstagramIcon size={16} />
+                  @td.agence
+                </a>
+                <a
+                  href="https://tiktok.com/@techdev.agence"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent transition-colors duration-200"
+                >
+                  <TikTokIcon size={16} />
+                  @techdev.agence
+                </a>
+              </div>
             </div>
 
             {footerLinks.map((group) => (

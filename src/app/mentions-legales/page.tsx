@@ -22,6 +22,7 @@ export default function MentionsLegales() {
               <li>Responsable de la publication : TECH&DEV</li>
               <li>Email : <a href="mailto:contact-td.agence@proton.me" className="text-accent hover:underline">contact-td.agence@proton.me</a></li>
               <li>Instagram : <a href="https://instagram.com/td.agence" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">@td.agence</a></li>
+              <li>TikTok : <a href="https://tiktok.com/@techdev.agence" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">@techdev.agence</a></li>
               <li>Zone d&apos;activité : Île-de-France</li>
             </ul>
           </section>
