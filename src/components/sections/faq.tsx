@@ -53,7 +53,7 @@ function FaqItem({
     <div className="border-b border-border">
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between gap-4 py-5 sm:py-6 text-left cursor-pointer"
+        className="w-full flex items-center justify-between gap-4 py-5 sm:py-6 text-left cursor-pointer rounded-[var(--radius-sm)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         aria-expanded={isOpen}
       >
         <span className="text-base sm:text-lg font-medium">{question}</span>

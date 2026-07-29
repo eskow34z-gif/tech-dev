@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE, SOCIAL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
@@ -20,9 +21,9 @@ export default function MentionsLegales() {
             </p>
             <ul className="mt-3 space-y-1">
               <li>Responsable de la publication : TECH&DEV</li>
-              <li>Email : <a href="mailto:contact-td.agence@proton.me" className="text-accent hover:underline">contact-td.agence@proton.me</a></li>
-              <li>Instagram : <a href="https://instagram.com/td.agence" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">@td.agence</a></li>
-              <li>TikTok : <a href="https://tiktok.com/@techdev.agence" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">@techdev.agence</a></li>
+              <li>Email : <a href={`mailto:${SITE.email}`} className="text-accent hover:underline">{SITE.email}</a></li>
+              <li>Instagram : <a href={SOCIAL.instagram.url} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">{SOCIAL.instagram.handle}</a></li>
+              <li>TikTok : <a href={SOCIAL.tiktok.url} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">{SOCIAL.tiktok.handle}</a></li>
               <li>Zone d&apos;activité : Île-de-France</li>
             </ul>
           </section>

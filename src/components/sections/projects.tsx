@@ -408,30 +408,34 @@ function MobileProjectsCarousel() {
           onClick={() => scroll("left")}
           disabled={!canScrollLeft}
           aria-label="Précédent"
-          className="w-8 h-8 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center disabled:opacity-30 transition-opacity"
+          className="w-11 h-11 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center disabled:opacity-30 transition-opacity"
         >
           <ChevronLeft size={16} />
         </button>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center">
           {projects.map((_, i) => (
             <button
               key={i}
               onClick={() => scrollToIndex(i)}
-              className={`rounded-full transition-all duration-300 cursor-pointer ${
-                i === activeIndex
-                  ? "w-5 h-1.5 bg-accent"
-                  : "w-1.5 h-1.5 bg-border"
-              }`}
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               aria-label={`Projet ${i + 1}`}
-            />
+            >
+              <span
+                className={`rounded-full transition-all duration-300 ${
+                  i === activeIndex
+                    ? "w-5 h-1.5 bg-accent"
+                    : "w-1.5 h-1.5 bg-border"
+                }`}
+              />
+            </button>
           ))}
         </div>
         <button
           onClick={() => scroll("right")}
           disabled={!canScrollRight}
           aria-label="Suivant"
-          className="w-8 h-8 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center disabled:opacity-30 transition-opacity"
+          className="w-11 h-11 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center disabled:opacity-30 transition-opacity"
         >
           <ChevronRight size={16} />
         </button>

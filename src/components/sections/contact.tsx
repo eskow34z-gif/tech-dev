@@ -7,6 +7,7 @@ import { InstagramIcon } from "@/components/ui/instagram-icon";
 import { TikTokIcon } from "@/components/ui/tiktok-icon";
 import { Button } from "@/components/ui/button";
 import { FadeIn, SectionDivider, GlowCard } from "@/components/ui/motion";
+import { SITE, SOCIAL } from "@/lib/constants";
 
 type FormState = "idle" | "submitting" | "success";
 
@@ -175,10 +176,10 @@ export function Contact() {
                 <div>
                   <p className="text-sm font-medium mb-1">Email</p>
                   <a
-                    href="mailto:contact-td.agence@proton.me"
+                    href={`mailto:${SITE.email}`}
                     className="text-sm text-accent hover:underline"
                   >
-                    contact-td.agence@proton.me
+                    {SITE.email}
                   </a>
                 </div>
               </div>
@@ -190,7 +191,7 @@ export function Contact() {
                 <div>
                   <p className="text-sm font-medium mb-1">Instagram</p>
                   <a
-                    href="https://instagram.com/td.agence"
+                    href={SOCIAL.instagram.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-accent hover:underline"
@@ -207,7 +208,7 @@ export function Contact() {
                 <div>
                   <p className="text-sm font-medium mb-1">TikTok</p>
                   <a
-                    href="https://tiktok.com/@techdev.agence"
+                    href={SOCIAL.tiktok.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-accent hover:underline"

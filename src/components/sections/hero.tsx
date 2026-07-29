@@ -1,15 +1,16 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MagneticHover, TextReveal } from "@/components/ui/motion";
 import { TextScramble } from "@/components/ui/text-scramble";
+import { useIsDesktop } from "@/hooks/use-is-desktop";
 
 export function Hero() {
   const [scrambleTrigger, setScrambleTrigger] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const isDesktop = useIsDesktop();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -18,14 +19,6 @@ export function Hero() {
   const bgY = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.95]);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    setIsDesktop(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
 
   return (
     <section
@@ -67,30 +60,28 @@ export function Hero() {
         style={{ opacity, scale }}
         className="relative z-10 mx-auto max-w-5xl px-6 lg:px-8 text-center"
       >
-        <TextReveal delay={0.1}>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
-            Votre partenaire
-          </h1>
-        </TextReveal>
-        <TextReveal delay={0.2} onAnimationComplete={() => setScrambleTrigger(true)}>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
-            <TextScramble
-              as="span"
-              className={`bg-gradient-to-r from-accent via-[#3B82F6] to-accent bg-clip-text text-transparent ${isDesktop ? "bg-[length:200%_auto] animate-[gradient-shift_4s_ease-in-out_infinite]" : ""}`}
-              trigger={scrambleTrigger}
-              duration={1.2}
-              speed={0.03}
-              characterSet="TECHDEV&01"
-            >
-              tech de confiance
-            </TextScramble>
-          </h1>
-        </TextReveal>
-        <TextReveal delay={0.3}>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-6 sm:mb-8">
-            en Île-de-France
-          </h1>
-        </TextReveal>
+        <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-6 sm:mb-8">
+          <TextReveal as="span" delay={0.1}>
+            <span className="block">Votre partenaire</span>
+          </TextReveal>
+          <TextReveal as="span" delay={0.2} onAnimationComplete={() => setScrambleTrigger(true)}>
+            <span className="block">
+              <TextScramble
+                as="span"
+                className={`bg-gradient-to-r from-accent via-[#3B82F6] to-accent bg-clip-text text-transparent ${isDesktop ? "bg-[length:200%_auto] animate-[gradient-shift_4s_ease-in-out_infinite]" : ""}`}
+                trigger={scrambleTrigger}
+                duration={1.2}
+                speed={0.03}
+                characterSet="TECHDEV&01"
+              >
+                tech de confiance
+              </TextScramble>
+            </span>
+          </TextReveal>
+          <TextReveal as="span" delay={0.3}>
+            <span className="block">en Île-de-France</span>
+          </TextReveal>
+        </h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -109,16 +100,14 @@ export function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <MagneticHover strength={0.15}>
-            <Button size="lg">
-              <a href="#contact" className="flex items-center gap-2">
-                Demander un devis gratuit
-                <ArrowRight size={18} />
-              </a>
+            <Button size="lg" href="#contact">
+              Demander un devis gratuit
+              <ArrowRight size={18} />
             </Button>
           </MagneticHover>
           <MagneticHover strength={0.15}>
-            <Button variant="outline" size="lg">
-              <a href="#services">Découvrir nos services</a>
+            <Button variant="outline" size="lg" href="#services">
+              Découvrir nos services
             </Button>
           </MagneticHover>
         </motion.div>

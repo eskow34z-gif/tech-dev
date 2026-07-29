@@ -48,7 +48,7 @@ export function CookieBanner() {
               </div>
               <button
                 onClick={accept}
-                className="p-1 text-foreground-subtle hover:text-foreground transition-colors cursor-pointer"
+                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-foreground-subtle hover:text-foreground transition-colors cursor-pointer"
                 aria-label="Fermer"
               >
                 <X size={16} />

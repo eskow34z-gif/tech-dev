@@ -277,11 +277,9 @@ export function Pricing() {
                   ))}
                 </ul>
                 <div className="mt-5 sm:mt-6">
-                  <Button size="lg">
-                    <a href="#contact" className="flex items-center gap-2">
-                      <Sparkles size={16} />
-                      Profiter du pack
-                    </a>
+                  <Button size="lg" href="#contact">
+                    <Sparkles size={16} />
+                    Profiter du pack
                   </Button>
                 </div>
               </div>

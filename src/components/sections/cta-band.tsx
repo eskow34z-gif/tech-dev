@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { InstagramIcon } from "@/components/ui/instagram-icon";
 import { FadeIn, MagneticHover } from "@/components/ui/motion";
+import { SOCIAL } from "@/lib/constants";
 
 export function CtaBand() {
   return (
@@ -34,24 +36,21 @@ export function CtaBand() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <MagneticHover strength={0.12}>
-              <Button size="lg">
-                <a href="#contact" className="flex items-center gap-2">
-                  Demander un devis
-                  <ArrowRight size={18} />
-                </a>
+              <Button size="lg" href="#contact">
+                Demander un devis
+                <ArrowRight size={18} />
               </Button>
             </MagneticHover>
             <MagneticHover strength={0.12}>
-              <Button variant="outline" size="lg">
-                <a
-                  href="https://instagram.com/td.agence"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                  @td.agence
-                </a>
+              <Button
+                variant="outline"
+                size="lg"
+                href={SOCIAL.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <InstagramIcon size={16} />
+                @td.agence
               </Button>
             </MagneticHover>
           </div>

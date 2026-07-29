@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, useInView, type HTMLMotionProps } from "framer-motion";
+import { useRef } from "react";
+import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface FadeInProps extends HTMLMotionProps<"div"> {
@@ -90,44 +90,24 @@ export function StaggerItem({
   );
 }
 
-export function ParallaxSection({
-  children,
-  className,
-  offset = 60,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  offset?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], [offset, -offset]);
-  const smoothY = useSpring(y, { stiffness: 100, damping: 30, mass: 1 });
-
-  return (
-    <div ref={ref} className={cn("relative overflow-hidden", className)}>
-      <motion.div style={{ y: smoothY }}>{children}</motion.div>
-    </div>
-  );
-}
-
 export function TextReveal({
   children,
   className,
   delay = 0,
+  as: Tag = "div",
   onAnimationComplete,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  as?: "div" | "span";
   onAnimationComplete?: () => void;
 }) {
+  const MotionTag = Tag === "span" ? motion.span : motion.div;
+
   return (
-    <div className={cn("overflow-hidden", className)}>
-      <motion.div
+    <Tag className={cn("overflow-hidden", className)}>
+      <MotionTag
         initial={{ y: "100%" }}
         whileInView={{ y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
@@ -139,53 +119,8 @@ export function TextReveal({
         onAnimationComplete={onAnimationComplete}
       >
         {children}
-      </motion.div>
-    </div>
-  );
-}
-
-export function CountUp({
-  value,
-  suffix = "",
-  prefix = "",
-  className,
-}: {
-  value: number;
-  suffix?: string;
-  prefix?: string;
-  className?: string;
-}) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const numRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
-  const springValue = useSpring(0, {
-    stiffness: 50,
-    damping: 20,
-    mass: 1,
-  });
-
-  useEffect(() => {
-    if (isInView) {
-      springValue.set(value);
-    }
-  }, [isInView, springValue, value]);
-
-  useEffect(() => {
-    const unsubscribe = springValue.on("change", (v) => {
-      if (numRef.current) {
-        numRef.current.textContent = Math.round(v).toString();
-      }
-    });
-    return unsubscribe;
-  }, [springValue]);
-
-  return (
-    <span ref={ref} className={className}>
-      {prefix}
-      <span ref={numRef}>0</span>
-      {suffix}
-    </span>
+      </MotionTag>
+    </Tag>
   );
 }
 

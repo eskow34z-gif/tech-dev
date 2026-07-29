@@ -27,11 +27,9 @@ export default function NotFound() {
         <p className="text-foreground-muted mb-8 max-w-sm mx-auto">
           Cette page n&apos;existe pas ou a été déplacée.
         </p>
-        <Button variant="outline">
-          <a href="/" className="flex items-center gap-2">
-            <ArrowLeft size={16} />
-            Retour à l&apos;accueil
-          </a>
+        <Button variant="outline" href="/">
+          <ArrowLeft size={16} />
+          Retour à l&apos;accueil
         </Button>
       </div>
     </div>

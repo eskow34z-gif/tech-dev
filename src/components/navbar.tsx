@@ -8,13 +8,7 @@ import { InstagramIcon } from "@/components/ui/instagram-icon";
 import { TikTokIcon } from "@/components/ui/tiktok-icon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-const links = [
-  { label: "Services", href: "#services" },
-  { label: "Tarifs", href: "#tarifs" },
-  { label: "Projets", href: "#projects" },
-  { label: "Contact", href: "#contact" },
-];
+import { NAV_LINKS, SOCIAL } from "@/lib/constants";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -63,18 +57,18 @@ export function Navbar() {
               <span className="text-sm font-bold tracking-tight text-foreground">
                 TECH<span className="text-accent">&</span>DEV
               </span>
-              <span className="text-[9px] tracking-[0.15em] text-foreground-subtle uppercase">
+              <span className="text-[11px] tracking-[0.15em] text-foreground-subtle uppercase">
                 Solutions Numériques
               </span>
             </div>
           </a>
 
           <div className="hidden md:flex items-center gap-1">
-            {links.map((link) => (
+            {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="px-4 py-2 text-sm text-foreground-muted hover:text-foreground transition-colors duration-200 rounded-[var(--radius-sm)]"
+                className="px-4 py-2 text-sm text-foreground-muted hover:text-foreground transition-colors duration-200 rounded-[var(--radius-sm)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {link.label}
               </a>
@@ -83,7 +77,7 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center gap-3">
             <a
-              href="https://instagram.com/td.agence"
+              href={SOCIAL.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-foreground-muted hover:text-accent transition-colors duration-200"
@@ -92,7 +86,7 @@ export function Navbar() {
               <InstagramIcon size={18} />
             </a>
             <a
-              href="https://tiktok.com/@techdev.agence"
+              href={SOCIAL.tiktok.url}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-foreground-muted hover:text-accent transition-colors duration-200"
@@ -130,7 +124,7 @@ export function Navbar() {
                 height={50}
                 className="mb-4"
               />
-              {links.map((link, i) => (
+              {NAV_LINKS.map((link, i) => (
                 <motion.a
                   key={link.href}
                   href={link.href}
@@ -148,13 +142,13 @@ export function Navbar() {
                 </motion.a>
               ))}
               <motion.a
-                href="https://instagram.com/td.agence"
+                href={SOCIAL.instagram.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  delay: links.length * 0.08,
+                  delay: NAV_LINKS.length * 0.08,
                   duration: 0.4,
                   ease: [0.16, 1, 0.3, 1],
                 }}
@@ -164,13 +158,13 @@ export function Navbar() {
                 @td.agence
               </motion.a>
               <motion.a
-                href="https://tiktok.com/@techdev.agence"
+                href={SOCIAL.tiktok.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  delay: links.length * 0.08 + 0.05,
+                  delay: NAV_LINKS.length * 0.08 + 0.05,
                   duration: 0.4,
                   ease: [0.16, 1, 0.3, 1],
                 }}
@@ -188,8 +182,8 @@ export function Navbar() {
                   ease: [0.16, 1, 0.3, 1],
                 }}
               >
-                <Button size="lg" onClick={() => setMobileOpen(false)}>
-                  <a href="#contact">Parlons de votre projet</a>
+                <Button size="lg" href="#contact" onClick={() => setMobileOpen(false)}>
+                  Parlons de votre projet
                 </Button>
               </motion.div>
             </nav>

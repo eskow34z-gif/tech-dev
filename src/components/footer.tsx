@@ -6,6 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { InstagramIcon } from "@/components/ui/instagram-icon";
 import { TikTokIcon } from "@/components/ui/tiktok-icon";
 import { FadeIn } from "@/components/ui/motion";
+import { SOCIAL } from "@/lib/constants";
 
 const footerLinks = [
   {
@@ -49,7 +50,7 @@ export function Footer() {
                   <span className="text-base font-bold tracking-tight text-foreground">
                     TECH<span className="text-accent">&</span>DEV
                   </span>
-                  <span className="text-[10px] tracking-[0.15em] text-foreground-subtle uppercase">
+                  <span className="text-[11px] tracking-[0.15em] text-foreground-subtle uppercase">
                     Solutions Numériques
                   </span>
                 </div>
@@ -60,7 +61,7 @@ export function Footer() {
               </p>
               <div className="flex items-center gap-4 mt-4">
                 <a
-                  href="https://instagram.com/td.agence"
+                  href={SOCIAL.instagram.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent transition-colors duration-200"
@@ -69,7 +70,7 @@ export function Footer() {
                   @td.agence
                 </a>
                 <a
-                  href="https://tiktok.com/@techdev.agence"
+                  href={SOCIAL.tiktok.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent transition-colors duration-200"
@@ -123,7 +124,7 @@ export function Footer() {
               <motion.button
                 onClick={scrollToTop}
                 whileHover={{ y: -2 }}
-                className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-foreground-subtle hover:text-accent hover:border-accent transition-colors duration-200 cursor-pointer"
+                className="w-11 h-11 rounded-full border border-border flex items-center justify-center text-foreground-subtle hover:text-accent hover:border-accent transition-colors duration-200 cursor-pointer"
                 aria-label="Retour en haut"
               >
                 <svg
