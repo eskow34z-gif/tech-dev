@@ -246,9 +246,8 @@ export function CrystalGrid() {
 }
 
 // ─── Particle Field (Projects section) ───────────────────
-export function ParticleField() {
+export function ParticleField({ count = 1500 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
-  const count = 1500;
 
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
@@ -258,7 +257,7 @@ export function ParticleField() {
       pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
     }
     return pos;
-  }, []);
+  }, [count]);
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
@@ -278,9 +277,8 @@ export function ParticleField() {
 }
 
 // ─── Neural Network (Testimonials / MCP section) ─────────
-export function NeuralNetwork() {
+export function NeuralNetwork({ nodeCount = 40 }: { nodeCount?: number }) {
   const groupRef = useRef<THREE.Group>(null);
-  const nodeCount = 40;
 
   const { nodes, edges } = useMemo(() => {
     const n: [number, number, number][] = [];
@@ -301,7 +299,7 @@ export function NeuralNetwork() {
       }
     }
     return { nodes: n, edges: e };
-  }, []);
+  }, [nodeCount]);
 
   const linePositions = useMemo(() => {
     const arr = new Float32Array(edges.length * 6);

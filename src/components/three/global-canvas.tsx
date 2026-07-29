@@ -24,28 +24,27 @@ import {
 } from "./environment-objects";
 import { LiquidSphere, HolographicScreen } from "./shaders";
 import { ExplodedGpu } from "./exploded-gpu";
+import { getDeviceTier, type DeviceTier } from "@/lib/device-tier";
 
-function useIsMobile() {
-  const [mobile, setMobile] = useState(false);
+function useDeviceTier(): DeviceTier {
+  const [tier, setTier] = useState<DeviceTier>("high");
   useEffect(() => {
-    const check = () => setMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    setTier(getDeviceTier());
   }, []);
-  return mobile;
+  return tier;
 }
 
 export function GlobalCanvas() {
   const scrollProgress = useRef(0);
-  const isMobile = useIsMobile();
+  const tier = useDeviceTier();
+  const isLow = tier === "low";
 
   const handleScroll = useCallback(() => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     scrollProgress.current = Math.max(0, Math.min(1, scrollTop / docHeight));
-    if (isMobile) invalidate();
-  }, [isMobile]);
+    if (tier !== "high") invalidate();
+  }, [tier]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -61,13 +60,13 @@ export function GlobalCanvas() {
       <Canvas
         camera={{ position: [0, 0, 8], fov: 60, near: 0.1, far: 200 }}
         gl={{
-          antialias: !isMobile,
+          antialias: tier === "high",
           alpha: true,
           powerPreference: "high-performance",
           stencil: false,
         }}
-        dpr={isMobile ? [1, 1] : [1, 2]}
-        frameloop={isMobile ? "demand" : "always"}
+        dpr={isLow ? [1, 1] : tier === "medium" ? [1, 1.5] : [1, 2]}
+        frameloop={tier === "high" ? "always" : "demand"}
         style={{ background: "transparent" }}
         eventSource={typeof document !== "undefined" ? document.documentElement : undefined}
         eventPrefix="client"
@@ -78,8 +77,8 @@ export function GlobalCanvas() {
         {/* Hero zone — CPU */}
         <CpuCore />
 
-        {/* Mobile: only essential objects */}
-        {!isMobile && (
+        {/* Low tier: only essential objects */}
+        {!isLow && (
           <>
             {/* Services zone — Data Vortex */}
             <DataVortex />
@@ -106,17 +105,17 @@ export function GlobalCanvas() {
           </>
         )}
 
-        {/* Projects zone — Particle field (lighter, OK on mobile) */}
-        <ParticleField />
+        {/* Projects zone — Particle field (lighter, OK on low tier) */}
+        <ParticleField count={isLow ? 500 : 1500} />
 
         {/* Testimonials — Neural Network */}
-        <NeuralNetwork />
+        <NeuralNetwork nodeCount={isLow ? 20 : 40} />
 
         {/* Contact — Floating Grid floor */}
         <FloatingGrid />
 
         {/* Post-Processing */}
-        <EffectComposer enabled={!isMobile}>
+        <EffectComposer enabled={tier !== "low"}>
           <Bloom
             intensity={0.8}
             luminanceThreshold={0.2}

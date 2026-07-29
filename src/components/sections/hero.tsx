@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { TextScramble } from "@/components/ui/text-scramble";
 
 export function Hero() {
   const [scrambleTrigger, setScrambleTrigger] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -18,33 +19,45 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.8], [1, 0.95]);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   return (
     <section
       ref={sectionRef}
       className="relative min-h-dvh flex items-center justify-center overflow-hidden"
     >
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: bgY }}>
-        <motion.div
-          animate={{
-            x: [0, 30, -20, 0],
-            y: [0, -20, 30, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/6 rounded-full blur-[120px]"
-        />
-        <motion.div
-          animate={{
-            x: [0, -30, 20, 0],
-            y: [0, 20, -30, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 2,
-          }}
-          className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-[#3B82F6]/5 rounded-full blur-[100px]"
-        />
+        {isDesktop && (
+          <>
+            <motion.div
+              animate={{
+                x: [0, 30, -20, 0],
+                y: [0, -20, 30, 0],
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/6 rounded-full blur-[120px]"
+            />
+            <motion.div
+              animate={{
+                x: [0, -30, 20, 0],
+                y: [0, 20, -30, 0],
+              }}
+              transition={{
+                duration: 25,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 2,
+              }}
+              className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-[#3B82F6]/5 rounded-full blur-[100px]"
+            />
+          </>
+        )}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--bg-deep)_70%)]" />
       </motion.div>
 
@@ -63,7 +76,7 @@ export function Hero() {
           <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]">
             <TextScramble
               as="span"
-              className="bg-gradient-to-r from-accent via-[#3B82F6] to-accent bg-[length:200%_auto] animate-[gradient-shift_4s_ease-in-out_infinite] bg-clip-text text-transparent"
+              className={`bg-gradient-to-r from-accent via-[#3B82F6] to-accent bg-clip-text text-transparent ${isDesktop ? "bg-[length:200%_auto] animate-[gradient-shift_4s_ease-in-out_infinite]" : ""}`}
               trigger={scrambleTrigger}
               duration={1.2}
               speed={0.03}
