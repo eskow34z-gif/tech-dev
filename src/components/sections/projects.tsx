@@ -41,14 +41,14 @@ const projects = [
     image: "/portfolio/cali-papillon.png",
   },
   {
-    title: "Flyer Services Digital",
+    title: "Nike Performance — Ensembles",
     category: "Design promotionnel",
     description:
-      "Conception d'un flyer de services digitaux avec style néon gaming. Mise en page claire des prestations, icônes personnalisées et contact direct intégré.",
+      "Conception d'un flyer promotionnel pour une collection d'ensembles short + t-shirt de sport. Mise en avant produit, arguments qualité (livraison rapide, tissu anti-transpirant, séchage rapide) et contact direct intégré.",
     tags: ["Flyer", "Design graphique", "Promo"],
     icon: Megaphone,
     color: "#3B82F6",
-    image: "/portfolio/td-flyer.png",
+    image: "/portfolio/nike-ensembles.png",
   },
 ];
 
