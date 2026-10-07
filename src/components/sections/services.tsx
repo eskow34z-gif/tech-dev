@@ -291,7 +291,7 @@ function DesktopCarousel3D({ services }: { services: Service[] }) {
       <div className="flex items-center justify-center gap-4 mt-6">
         <button
           onClick={() => { handleCardClick(activeIndex - 1); }}
-          className="w-10 h-10 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center hover:border-accent hover:text-accent transition-all duration-200 cursor-pointer"
+          className="w-10 h-10 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center hover:border-accent hover:text-accent transition-all duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           aria-label="Précédent"
         >
           <ChevronLeft size={18} />
@@ -302,19 +302,21 @@ function DesktopCarousel3D({ services }: { services: Service[] }) {
             <button
               key={i}
               onClick={() => handleCardClick(i)}
-              className={`rounded-full transition-all duration-300 cursor-pointer ${
+              className={`rounded-full transition-all duration-300 cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}
+              aria-label={`Service ${i + 1}`}
+            >
+              <span className={`rounded-full block transition-all duration-300 ${
                 i === activeIndex
                   ? "w-6 h-2 bg-accent"
-                  : "w-2 h-2 bg-border hover:bg-foreground-subtle"
-              }`}
-              aria-label={`Service ${i + 1}`}
-            />
+                  : "w-2 h-2 bg-border"
+              }`} />
+            </button>
           ))}
         </div>
 
         <button
           onClick={() => { handleCardClick(activeIndex + 1); }}
-          className="w-10 h-10 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center hover:border-accent hover:text-accent transition-all duration-200 cursor-pointer"
+          className="w-10 h-10 rounded-full border border-border bg-[var(--bg-surface)] flex items-center justify-center hover:border-accent hover:text-accent transition-all duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           aria-label="Suivant"
         >
           <ChevronRight size={18} />

@@ -66,7 +66,7 @@ export default function MentionsLegales() {
             <p>
               Vous pouvez exercer vos droits en nous contactant par e-mail.
               Vous disposez également du droit d&apos;introduire une réclamation
-              auprès de la CNIL (cnil.fr).
+              auprès de la <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">CNIL</a>.
             </p>
           </section>
 

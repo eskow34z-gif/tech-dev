@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     title: "TECH&DEV | Agence Web Premium",
     description:
       "Informatique, création web et design graphique en Île-de-France.",
-    creator: "@td.agence",
+    creator: "@techdev_agence",
     images: ["/logo-full.svg"],
   },
   robots: {

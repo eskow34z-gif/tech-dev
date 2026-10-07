@@ -124,7 +124,7 @@ export function Footer() {
               <motion.button
                 onClick={scrollToTop}
                 whileHover={{ y: -2 }}
-                className="w-11 h-11 rounded-full border border-border flex items-center justify-center text-foreground-subtle hover:text-accent hover:border-accent transition-colors duration-200 cursor-pointer"
+                className="w-11 h-11 rounded-full border border-border flex items-center justify-center text-foreground-subtle hover:text-accent hover:border-accent transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 aria-label="Retour en haut"
               >
                 <svg
