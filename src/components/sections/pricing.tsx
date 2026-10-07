@@ -1,16 +1,15 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useInView, useSpring, AnimatePresence } from "framer-motion";
+import { useRef, useEffect } from "react";
+import { useInView, useSpring } from "framer-motion";
 import {
-  Palette,
-  Monitor,
-  Globe,
+  MapPin,
   Rocket,
+  Handshake,
   Check,
   Sparkles,
-  ChevronDown,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import {
   FadeIn,
   StaggerContainer,
@@ -21,145 +20,76 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-interface PriceItem {
-  label: string;
-  price: string;
-  value?: number;
-  prefix?: string;
-  suffix?: string;
+interface Pack {
+  id: string;
+  icon: LucideIcon;
+  badge?: string;
+  name: string;
+  subtitle: string;
+  price: number;
+  priceSuffix: string;
+  priceRange?: string;
+  salesArg: string;
+  features: string[];
+  cta: string;
+  featured?: boolean;
 }
 
-const pricingCards = [
+const packs: Pack[] = [
   {
-    icon: Palette,
-    title: "Design Graphique",
-    items: [
-      { label: "Flyer / Affiche", price: "40€", value: 40, suffix: "€" },
-      {
-        label: "Visuel réseaux sociaux",
-        price: "25€ / unité (pack 5 : 100€)",
-        value: 25,
-        suffix: "€",
-      },
-      { label: "Carte de visite", price: "50€", value: 50, suffix: "€" },
-      { label: "Création de logo", price: "150€", value: 150, suffix: "€" },
-      {
-        label: "Menu / Carte restaurant",
-        price: "70€",
-        value: 70,
-        suffix: "€",
-      },
-      {
-        label: "Habillage réseaux sociaux",
-        price: "80€",
-        value: 80,
-        suffix: "€",
-      },
-      {
-        label: "Forfait mensuel (8 visuels/mois)",
-        price: "150€/mois",
-        value: 150,
-        suffix: "€/mois",
-      },
-    ] as PriceItem[],
+    id: "visibilite",
+    icon: MapPin,
+    name: "Cheval de Troie",
+    subtitle: "Pack Visibilité Locale",
+    price: 90,
+    priceSuffix: "€",
+    salesArg:
+      "Aujourd’hui, 80% de vos clients regardent vos avis Google avant de venir. Je configure votre plaque pour que les clients satisfaits laissent un avis en posant juste leur téléphone dessus.",
+    features: [
+      "Audit complet de votre fiche Google My Business",
+      "Optimisation pour apparaître dans les recherches locales",
+      "2 plaques/cartes NFC pour récolter des avis Google",
+      "Configuration et personnalisation des cartes NFC",
+    ],
+    cta: "Booster ma visibilité",
   },
   {
-    icon: Monitor,
-    title: "Informatique",
-    items: [
-      {
-        label: "Installation & config PC",
-        price: "À partir de 45€",
-        value: 45,
-        prefix: "À partir de ",
-        suffix: "€",
-      },
-      {
-        label: "E-mail professionnel",
-        price: "60€/an",
-        value: 60,
-        suffix: "€/an",
-      },
-      {
-        label: "Dépannage & réparation",
-        price: "À partir de 45€",
-        value: 45,
-        prefix: "À partir de ",
-        suffix: "€",
-      },
-      {
-        label: "Sauvegarde données",
-        price: "50€",
-        value: 50,
-        suffix: "€",
-      },
-      {
-        label: "Installation réseau",
-        price: "À partir de 80€",
-        value: 80,
-        prefix: "À partir de ",
-        suffix: "€",
-      },
-      {
-        label: "Mise en place caisse / TPE",
-        price: "Sur devis",
-      },
-      {
-        label: "Maintenance & assistance",
-        price: "À partir de 35€/mois",
-        value: 35,
-        prefix: "À partir de ",
-        suffix: "€/mois",
-      },
-    ] as PriceItem[],
+    id: "lancement",
+    icon: Rocket,
+    badge: "Populaire",
+    name: "Fondation",
+    subtitle: "Pack Lancement Digital",
+    price: 450,
+    priceSuffix: "€",
+    salesArg:
+      "Tout ce qu’il faut pour démarrer votre présence en ligne — idéal pour les nouveaux commerces.",
+    features: [
+      "Site vitrine One-Page professionnel",
+      "Configuration Email Pro",
+      "Lien WhatsApp / Réservation intégré",
+      "Optimisé mobile et référencé sur Google",
+    ],
+    cta: "Lancer mon activité",
+    featured: true,
   },
   {
-    icon: Globe,
-    title: "Création Web",
-    items: [
-      {
-        label: "Site vitrine (1 page)",
-        price: "À partir de 350€",
-        value: 350,
-        prefix: "À partir de ",
-        suffix: "€",
-      },
-      {
-        label: "Site vitrine (3-5 pages)",
-        price: "À partir de 500€",
-        value: 500,
-        prefix: "À partir de ",
-        suffix: "€",
-      },
-      {
-        label: "Boutique en ligne",
-        price: "À partir de 800€",
-        value: 800,
-        prefix: "À partir de ",
-        suffix: "€",
-      },
-      {
-        label: "Refonte de site",
-        price: "À partir de 250€",
-        value: 250,
-        prefix: "À partir de ",
-        suffix: "€",
-      },
-      {
-        label: "Fiche Google My Business",
-        price: "60€",
-        value: 60,
-        suffix: "€",
-      },
-    ] as PriceItem[],
+    id: "partenaire",
+    icon: Handshake,
+    name: "Récurrente",
+    subtitle: "Partenaire Digital",
+    price: 90,
+    priceSuffix: "€ / mois",
+    priceRange: "à 120€",
+    salesArg:
+      "Vous ne vous occupez plus de rien en ligne, vous gérez votre commerce, je gère votre image.",
+    features: [
+      "Hébergement et maintenance du site",
+      "4 visuels réseaux sociaux par mois",
+      "Support IT de base (1h/mois)",
+      "Mises à jour et sécurité incluses",
+    ],
+    cta: "Devenir partenaire",
   },
-];
-
-const packFeatures = [
-  "Logo professionnel",
-  "Carte de visite",
-  "Fiche Google My Business",
-  "5 visuels réseaux sociaux",
 ];
 
 function AnimatedPrice({
@@ -200,22 +130,7 @@ function AnimatedPrice({
   );
 }
 
-function PriceDisplay({ item }: { item: PriceItem }) {
-  if (item.value !== undefined) {
-    return (
-      <AnimatedPrice
-        value={item.value}
-        prefix={item.prefix}
-        suffix={item.suffix}
-      />
-    );
-  }
-  return <span>{item.price}</span>;
-}
-
 export function Pricing() {
-  const [showDetails, setShowDetails] = useState(false);
-
   return (
     <section id="tarifs" className="py-14 sm:py-32 relative">
       <SectionDivider className="absolute top-0 left-6 right-6 lg:left-8 lg:right-8" />
@@ -232,162 +147,87 @@ export function Pricing() {
           </h2>
         </FadeIn>
 
-        <FadeIn delay={0.1} className="mb-8 sm:mb-12">
-          <div className="relative overflow-hidden rounded-[var(--radius-xl)] border-2 border-accent/30 bg-gradient-to-br from-accent/5 via-[var(--bg-surface)] to-[#3B82F6]/5 p-6 sm:p-10">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-accent/8 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#3B82F6]/6 rounded-full blur-[60px] translate-y-1/2 -translate-x-1/2" />
-
-            <div className="relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-12">
-              <div className="flex-1 text-center lg:text-left">
-                <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-md)] bg-accent/15 text-accent">
-                    <Rocket size={20} />
+        <StaggerContainer
+          stagger={0.1}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start"
+        >
+          {packs.map((pack) => (
+            <StaggerItem key={pack.id}>
+              <GlowCard
+                className={
+                  pack.featured
+                    ? "border-2 border-accent/30 lg:scale-[1.03] relative z-10"
+                    : ""
+                }
+              >
+                <div className="p-6 sm:p-8 flex flex-col h-full">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent">
+                      <pack.icon size={20} strokeWidth={1.8} />
+                    </div>
+                    {pack.badge && (
+                      <Badge variant="accent">{pack.badge}</Badge>
+                    )}
                   </div>
-                  <Badge variant="accent">Populaire</Badge>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold mb-2">
-                  Pack Lancement Commerce
-                </h3>
-                <div className="flex items-baseline gap-2 justify-center lg:justify-start mb-3">
-                  <span className="text-4xl sm:text-5xl font-bold text-accent tabular-nums">
-                    350€
-                  </span>
-                  <span className="text-foreground-subtle line-through text-lg">
-                    650€
-                  </span>
-                </div>
-                <p className="text-foreground-muted max-w-md text-sm sm:text-base">
-                  Tout ce qu&apos;il faut pour démarrer votre présence en ligne
-                  — idéal pour les nouveaux commerces.
-                </p>
-              </div>
 
-              <div className="flex-shrink-0">
-                <ul className="space-y-2 sm:space-y-3">
-                  {packFeatures.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-center gap-3 text-sm"
+                  <h3 className="text-xl sm:text-2xl font-bold">
+                    {pack.name}
+                  </h3>
+                  <p className="text-sm text-foreground-muted mb-4">
+                    {pack.subtitle}
+                  </p>
+
+                  <div className="flex items-baseline gap-1.5 mb-1">
+                    <span className="text-3xl sm:text-4xl font-bold text-accent">
+                      <AnimatedPrice
+                        value={pack.price}
+                        suffix={pack.priceSuffix}
+                      />
+                    </span>
+                  </div>
+                  {pack.priceRange && (
+                    <p className="text-sm text-foreground-subtle mb-4">
+                      {pack.priceRange}
+                    </p>
+                  )}
+                  {!pack.priceRange && <div className="mb-4" />}
+
+                  <div className="border-t border-border/50 my-4" />
+
+                  <ul className="space-y-3 flex-1">
+                    {pack.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex items-start gap-3 text-sm"
+                      >
+                        <div className="flex items-center justify-center w-5 h-5 rounded-full bg-accent/15 text-accent mt-0.5 shrink-0">
+                          <Check size={12} strokeWidth={3} />
+                        </div>
+                        <span className="text-foreground-muted">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <p className="text-xs text-foreground-subtle italic mt-4 leading-relaxed">
+                    {pack.salesArg}
+                  </p>
+
+                  <div className="mt-6">
+                    <Button
+                      size="lg"
+                      href="#contact"
+                      variant={pack.featured ? "primary" : "secondary"}
+                      className="w-full justify-center"
                     >
-                      <div className="flex items-center justify-center w-5 h-5 rounded-full bg-accent/15 text-accent">
-                        <Check size={12} strokeWidth={3} />
-                      </div>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-5 sm:mt-6">
-                  <Button size="lg" href="#contact">
-                    <Sparkles size={16} />
-                    Profiter du pack
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* Mobile: collapsible details */}
-        <div className="lg:hidden mb-6">
-          <button
-            onClick={() => setShowDetails(!showDetails)}
-            className="w-full flex items-center justify-center gap-2 py-3 text-sm font-medium text-accent border border-accent/20 rounded-[var(--radius-lg)] bg-accent/5 hover:bg-accent/10 transition-colors"
-          >
-            {showDetails ? "Masquer les tarifs détaillés" : "Voir tous les tarifs détaillés"}
-            <motion.div animate={{ rotate: showDetails ? 180 : 0 }} transition={{ duration: 0.2 }}>
-              <ChevronDown size={16} />
-            </motion.div>
-          </button>
-        </div>
-
-        {/* Desktop: always visible */}
-        <div className="hidden lg:block">
-          <StaggerContainer
-            stagger={0.1}
-            className="grid grid-cols-3 gap-6"
-          >
-            {pricingCards.map((card) => (
-              <StaggerItem key={card.title}>
-                <GlowCard className="h-full">
-                  <div className="p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent">
-                        <card.icon size={20} strokeWidth={1.8} />
-                      </div>
-                      <h3 className="text-xl font-semibold">{card.title}</h3>
-                    </div>
-                    <div className="space-y-0">
-                      {card.items.map((item, i) => (
-                        <div
-                          key={item.label}
-                          className={`flex items-center justify-between gap-4 py-3.5 ${
-                            i < card.items.length - 1
-                              ? "border-b border-border/50"
-                              : ""
-                          }`}
-                        >
-                          <span className="text-sm text-foreground-muted">
-                            {item.label}
-                          </span>
-                          <span className="text-sm font-semibold text-foreground whitespace-nowrap">
-                            <PriceDisplay item={item} />
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                      {pack.featured && <Sparkles size={16} />}
+                      {pack.cta}
+                    </Button>
                   </div>
-                </GlowCard>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
-
-        {/* Mobile: collapsible pricing cards */}
-        <AnimatePresence>
-          {showDetails && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:hidden overflow-hidden"
-            >
-              <div className="space-y-4 pb-4">
-                {pricingCards.map((card) => (
-                  <GlowCard key={card.title}>
-                    <div className="p-5">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="flex items-center justify-center w-8 h-8 rounded-[var(--radius-md)] bg-accent/10 text-accent">
-                          <card.icon size={16} strokeWidth={1.8} />
-                        </div>
-                        <h3 className="text-lg font-semibold">{card.title}</h3>
-                      </div>
-                      <div className="space-y-0">
-                        {card.items.map((item, i) => (
-                          <div
-                            key={item.label}
-                            className={`flex items-center justify-between gap-3 py-2.5 ${
-                              i < card.items.length - 1
-                                ? "border-b border-border/50"
-                                : ""
-                            }`}
-                          >
-                            <span className="text-xs text-foreground-muted">
-                              {item.label}
-                            </span>
-                            <span className="text-xs font-semibold text-foreground whitespace-nowrap">
-                              <PriceDisplay item={item} />
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </GlowCard>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                </div>
+              </GlowCard>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
 
         <FadeIn delay={0.3} className="mt-6 sm:mt-10 text-center">
           <p className="text-sm text-foreground-muted">

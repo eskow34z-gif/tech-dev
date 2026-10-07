@@ -84,8 +84,7 @@ const tabs = [
         icon: Nfc,
         title: "Carte NFC avis Google",
         description:
-          "Une carte NFC que vos clients tapotent avec leur téléphone pour laisser un avis Google instantanément. Bientôt disponible.",
-        badge: "Bientôt",
+          "Une carte ou plaque NFC que vos clients tapotent avec leur téléphone pour laisser un avis Google instantanément. Inclus dans le Pack Visibilité Locale.",
       },
     ],
   },
@@ -178,15 +177,10 @@ function ServiceCard({ service, compact }: { service: Service; compact?: boolean
         <div className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-md)] bg-accent/10 text-accent mb-4 sm:mb-5 group-hover:shadow-[var(--shadow-glow)] transition-all duration-300 group-hover:scale-110">
           <service.icon size={20} strokeWidth={1.8} />
         </div>
-        <div className="flex items-center gap-2 mb-2 sm:mb-3">
+        <div className="mb-2 sm:mb-3">
           <h3 className={`${compact ? "text-base" : "text-base sm:text-lg"} font-semibold group-hover:text-accent transition-colors duration-300`}>
             {service.title}
           </h3>
-          {"badge" in service && service.badge && (
-            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[var(--radius-full)] bg-accent/15 text-accent border border-accent/25">
-              {service.badge}
-            </span>
-          )}
         </div>
         <p className="text-sm text-foreground-muted leading-relaxed">
           {service.description}

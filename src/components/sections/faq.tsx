@@ -9,7 +9,7 @@ const faqs = [
   {
     question: "Combien coûte un site vitrine ?",
     answer:
-      "À partir de 350€ pour une page unique, 500€ pour un site 3-5 pages. Le tarif dépend de vos besoins précis — vous recevez un devis clair sous 24h après notre échange, sans surprise.",
+      "Le Pack Lancement Digital inclut un site vitrine One-Page complet avec email pro et lien WhatsApp pour 450€. Pour des projets plus complexes (multi-pages, e-commerce), un devis personnalisé vous est proposé sous 24h après notre échange, sans surprise.",
   },
   {
     question: "Le devis est-il vraiment gratuit ?",
