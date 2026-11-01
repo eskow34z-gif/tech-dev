@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      { source: '/candidature', destination: '/candidature/index.html' },
+    ];
+  },
   headers: async () => [
     {
       source: "/(.*)",

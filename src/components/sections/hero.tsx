@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MagneticHover, TextReveal } from "@/components/ui/motion";
 import { TextScramble } from "@/components/ui/text-scramble";
@@ -108,6 +108,12 @@ export function Hero() {
           <MagneticHover strength={0.15}>
             <Button variant="outline" size="lg" href="#services">
               Découvrir nos services
+            </Button>
+          </MagneticHover>
+          <MagneticHover strength={0.15}>
+            <Button variant="outline" size="lg" href="/candidature">
+              5 sites offerts — Candidater
+              <Sparkles size={16} />
             </Button>
           </MagneticHover>
         </motion.div>
